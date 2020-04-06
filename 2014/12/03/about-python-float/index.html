@@ -7,25 +7,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>gitlab搭建过程中遇到的坑 | kair的博客</title>
+  <title>python中的float除法和整除法 | kair的博客</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="gitlab," />
+    <meta name="keywords" content="python," />
   
 
-  <meta name="description" content="近期尝试过搭建一个gitlab，搭建参考的是这篇文章，搭建过程中也着实遇到好多坑，这篇文章中没有做过多说明。以下是遇坑的记录。  关于ruby的坑，安装ruby之前一定要先安装好yaml，否则执行有关gem的命令时，会一直报如下错误 12It seems your ruby installation is missing psych (for YAML output). To eliminate">
+  <meta name="description" content="从python2.2开始，便有两种除法运算符：”&#x2F;“、”&#x2F;&#x2F;“。两者最大区别在：  python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”&#x2F;“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法 “&#x2F;&#x2F;“所做的除法则不相同，”&#x2F;&#x2F;“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法  以下是笔者在编译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="gitlab搭建过程中遇到的坑">
-<meta property="og:url" content="https://jkair.github.io/test/2014/12/02/git-lab-create/index.html">
+<meta property="og:title" content="python中的float除法和整除法">
+<meta property="og:url" content="https://jkair.github.io/test/2014/12/03/about-python-float/index.html">
 <meta property="og:site_name" content="kair的博客">
-<meta property="og:description" content="近期尝试过搭建一个gitlab，搭建参考的是这篇文章，搭建过程中也着实遇到好多坑，这篇文章中没有做过多说明。以下是遇坑的记录。  关于ruby的坑，安装ruby之前一定要先安装好yaml，否则执行有关gem的命令时，会一直报如下错误 12It seems your ruby installation is missing psych (for YAML output). To eliminate">
+<meta property="og:description" content="从python2.2开始，便有两种除法运算符：”&#x2F;“、”&#x2F;&#x2F;“。两者最大区别在：  python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”&#x2F;“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法 “&#x2F;&#x2F;“所做的除法则不相同，”&#x2F;&#x2F;“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法  以下是笔者在编译">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2014-12-02T06:25:53.000Z">
-<meta property="article:modified_time" content="2020-04-06T13:44:57.898Z">
+<meta property="article:published_time" content="2014-12-03T07:08:29.000Z">
+<meta property="article:modified_time" content="2020-04-06T13:49:47.577Z">
 <meta property="article:author" content="kair">
-<meta property="article:tag" content="gitlab">
+<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
 
   
@@ -186,14 +186,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-git-lab-create" class="article article-type-post" itemprop="blogPost">
+   <article id="post-about-python-float" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">gitlab搭建过程中遇到的坑</h1>
+    <h1 class="post-title">python中的float除法和整除法</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2014.12.02</span>
+        <span>2014.12.03</span>
       </span>
 
       
@@ -226,13 +226,29 @@
 
   <div class="article-content">
     
-      <p>近期尝试过搭建一个gitlab，搭建参考的是这篇<a href="http://www.xuebuyuan.com/150435.html" target="_blank" rel="noopener">文章</a>，搭建过程中也着实遇到好多坑，这篇文章中没有做过多说明。以下是遇坑的记录。</p>
+      <p>从python2.2开始，便有两种除法运算符：”/“、”//“。两者最大区别在：</p>
 <ol>
-<li>关于ruby的坑，安装ruby之前一定要先安装好yaml，否则执行有关gem的命令时，会一直报如下错误 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">It seems your ruby installation is missing psych (for YAML output). </span><br><span class="line">To eliminate this warning, please install libyaml and reinstall your ruby.</span><br></pre></td></tr></table></figure>
- 解决这个问题的办法参考<a href="http://www.hiceon.com/topic/Ruby-on-rail-yaml/" target="_blank" rel="noopener">此文章</a>，意思就是在安装ruby之前要先安装好libyaml，此文章的作者说只要<code>make clean</code>就可以解决，我实验过后发现不行，不知道是不是我理错了作者的意思。</li>
-<li>关于gitolite的，在安装gitolite之前，记得先安装好perl-Time-HiRes。<br>否则会报错如下 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Can&#39;t locate Time&#x2F;HiRes.pm in @INC (@INC contains: &#x2F;home&#x2F;git&#x2F;gitolite&#x2F;src&#x2F;lib &#x2F;usr&#x2F;local&#x2F;lib&#x2F;perl5 &#x2F;usr&#x2F;local&#x2F;share&#x2F;perl5 &#x2F;usr&#x2F;lib&#x2F;perl5&#x2F;vendor_perl &#x2F;usr&#x2F;share&#x2F;perl5&#x2F;vendor_perl &#x2F;usr&#x2F;lib&#x2F;perl5 &#x2F;usr&#x2F;share&#x2F;perl5 .) at &#x2F;home&#x2F;git&#x2F;gitolite&#x2F;src&#x2F;lib&#x2F;Gitolite&#x2F;Common.pm line 76.</span><br><span class="line">BEGIN failed--compilation aborted at &#x2F;home&#x2F;git&#x2F;gitolite&#x2F;src&#x2F;lib&#x2F;Gitolite&#x2F;Common.pm line 76.</span><br><span class="line">Compilation failed in require at gitolite&#x2F;install line 15.</span><br><span class="line">BEGIN failed--compilation aborted at gitolite&#x2F;install line 15.</span><br></pre></td></tr></table></figure>
- 具体的解决方案是查看了<a href="http://segmentfault.com/q/1010000000380149" target="_blank" rel="noopener">此文章</a>解决的。<br> 意思就是先<code>yum install perl-Time-HiRes</code>之后再去安装gitolite。</li>
+<li>python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”/“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法</li>
+<li>“//“所做的除法则不相同，”//“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法</li>
 </ol>
+<p><strong>以下是笔者在编译器测试的数据，测试的版本是<code>python2.7</code></strong></p>
+<p>关于”/“：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 3&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 10&#x2F;3.0</span><br><span class="line">3.3333333333333335</span><br></pre></td></tr></table></figure>
+
+<p>由以上的例子我们可得出，只要除数中<strong>有一个数</strong>是浮点数，那么得到的结果也是浮点数</p>
+<p>以下是关于”//“:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br></pre></td></tr></table></figure>
+
+<p>由以上的例子，我们可以看出，两个整型相除，得到的还是整型，但是。如果一个浮点数除以一个非浮点数得到的还会是一个浮点数，但是，计算的结果却是忽略小数部分，运算的结果类似两个整型相除，但是得到一个浮点数。另外”//“对于两个浮点数也是不例外的。</p>
+<p>如何让”/“和”//“进行分工</p>
+<p>在默认情况下，这两种运算符有很大的重叠地方，比如，当两个数都是整数的时候，两者的运算结果是没有区别的。如果想在python中让这两种有一个明确的分工。即”/“可以用于float除法，”//“用于整除法，我们可以在程序开始的时候做以下声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from __future__ import division</span><br></pre></td></tr></table></figure>
+
+<p>声明后测试的结果（以下测试的版本是python2.7）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from __future__ import division</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; -11&#x2F;2</span><br><span class="line">-5.5</span><br></pre></td></tr></table></figure>
+
+<p>以上，我们可以知道，做这个声明以后，”/“进行的将是float除法而不是整除法。</p>
+<p>还需要注意的是，在<strong>pyhton3</strong>中，”/“表示的就是float除，不需要再引入模块，就算分子分母都是int，返回的也将是浮点数</p>
 
     
   </div>
@@ -270,10 +286,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="hide pull-left" href="/">
+    <a class="show pull-left" href="/2014/12/02/git-lab-create/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2014/12/03/about-python-float/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
