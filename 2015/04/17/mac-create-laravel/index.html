@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mac 下搭建laravel的坑 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="laravel," />
+  
+
+  <meta name="description" content="最近在搞laravel，由于入手了MacBook，所以打算在MacBook下搭建环境开发，结果遇到了各种大坑，神坑。如何使用laravel去开发就不赘述了。  首先我跪在composer的安装下，后来参考了此篇文章，还有composer中国的，具体自己百度吧，不难。然后有一个问题，它居然提示Missing PHP53 or PHP54 from homebrew-php. Please insta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac 下搭建laravel的坑">
+<meta property="og:url" content="https://jkair.github.io/test/2015/04/17/mac-create-laravel/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="最近在搞laravel，由于入手了MacBook，所以打算在MacBook下搭建环境开发，结果遇到了各种大坑，神坑。如何使用laravel去开发就不赘述了。  首先我跪在composer的安装下，后来参考了此篇文章，还有composer中国的，具体自己百度吧，不难。然后有一个问题，它居然提示Missing PHP53 or PHP54 from homebrew-php. Please insta">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/121543-852f1551cf29005d.png">
+<meta property="article:published_time" content="2015-04-17T12:07:15.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.377Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="laravel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/121543-852f1551cf29005d.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-mac-create-laravel" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Mac 下搭建laravel的坑</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.04.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近在搞laravel，由于入手了MacBook，所以打算在MacBook下搭建环境开发，结果遇到了各种大坑，神坑。如何使用laravel去开发就不赘述了。</p>
+<ol>
+<li><p>首先我跪在composer的安装下，后来参考了<a href="http://jingyan.baidu.com/article/7f41ecec16842d593d095c9c.html" target="_blank" rel="noopener">此篇文章</a>，还有composer中国的，具体自己百度吧，不难。<br>然后有一个问题，它居然提示<br><code>Missing PHP53 or PHP54 from homebrew-php. Please install one or the other before continuing
+Error: An unsatisfied requirement failed this build.</code><br>但是我觉得不可能啊，不是Mac会自带php的吗？于是<br><code>php -v</code><br>php 5.5无误啊！为何！！！<br>百度了好久，全部是废话，于是Google了，瞬间得到<a href="http://stackoverflow.com/questions/15185152/missing-php53-or-php54-from-homebrew-php" target="_blank" rel="noopener">答案</a>参考二楼说的话</p>
+</li>
+<li><p>第二个坑<br><code>Composer could not find a composer.json file in /root
+To initialize a project, please create a composer.json file as described in the http://getcomposer.org/ &quot;Getting Started&quot; section</code><br>天呐，我我怎么运气那么不好，于是我又搜搜搜搜搜，终于找到答案了，原因就是composer的版本低，只要升级一下版本就好了<br><code>composer self-update</code></p>
+</li>
+<li><p>第三个坑<br>nginx的问题，个人比较喜欢nginx，brew安装完nginx之后访问localhost:8080，可以正常访问，welcome nginx。于是配了80端口。<br>这里有一个权限问题请注意，启动nginx，要<br><code>sudo nginx</code><br>百度一下就知道了，1024以下的端口都需要root访问权限<br>然后就又来一个坑了，配到80之后，一直没办法使用，Nginx一直提示502。于是又配了日志，日志提示如下<br><code>2794#0: *1 kevent() reported that connect() failed (61: Connection refused) while connecting to upstream, client: 127.0.0.1,
+server: localhost, request: &quot;GET /favicon.ico HTTP/1.1&quot;, upstream: &quot;fastcgi://127.0.0.1:9000&quot;, host: &quot;localhost&quot;</code><br>联想到有可能是php-fpm的问题，于是尝试启动php-fpm，居然不行！干，于是又搜搜搜，原来是没有配好php-fpm.conf导致。于是<br><code>$cd /private/etc
+$ls</code><br>你可以看到存在<code>php-fpm.conf.default</code>文件，于是你把这份文件复制一份出来就好了<br><code>sudo cp php-fpm.conf.default php-fpm.conf</code><br>本以为到此爬坑之旅就结束了<br>又来了一个错误<br><code>[17-Apr-2015 17:56:15] ERROR: failed to open error_log (/usr/var/-1): No such file or directory (2)
+[17-Apr-2015 17:56:15] ERROR: failed to post process the configuration
+[17-Apr-2015 17:56:15] ERROR: FPM initialization failed</code><br>从字面上的意思，肯定是日志配置除了问题，于是又看了看文件的位置，配了如下两项<br><code>[global]
+error_log = log/php-fpm.log#这里写你要存放日志的路径，你可以使用默认路径
+[www]
+catch_workers_output = yes</code><br>php-fpm终于正常启动了。</p>
+</li>
+<li><p>接下来打开localhost，发现页面全部空白。。。。。。。<br>百度之，发现要给storage 777权限，于是给之。终于！<br>又来一个问题！！！<br><img src="http://upload-images.jianshu.io/upload_images/121543-852f1551cf29005d.png" alt="Paste_Image.png"><br>这个问题的原因，是因为laravel需要依赖PHP的mcrypt扩展，只要开启了就可以了<br>参考此篇<a href="http://benohead.com/mac-os-x-php-notice-use-undefined-constant-mcrypt_rijndael_128/" target="_blank" rel="noopener">文章</a></p>
+</li>
+<li><p>再来一个坑，提示<br><code>SQLSTATE[HY000] [2002] No such file or directory</code><br>解决方案如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">bogon:mylaravel lvweichong$ sudo find &#x2F; -name mysql.sock</span><br><span class="line">Password:</span><br><span class="line">find: &#x2F;dev&#x2F;fd&#x2F;3: Not a directory</span><br><span class="line">find: &#x2F;dev&#x2F;fd&#x2F;4: Not a directory</span><br><span class="line">&#x2F;private&#x2F;tmp&#x2F;mysql.sock</span><br><span class="line">bogon:mylaravel lvweichong$ ll &#x2F;var&#x2F;mysql</span><br><span class="line">-bash: ll: command not found</span><br><span class="line">bogon:mylaravel lvweichong$ ls &#x2F;var&#x2F;mysql</span><br><span class="line">ls: &#x2F;var&#x2F;mysql: No such file or directory</span><br><span class="line">bogon:mylaravel lvweichong$ sudo mkdir &#x2F;var&#x2F;mysql</span><br><span class="line">bogon:mylaravel lvweichong$ sudo ln -s &#x2F;private&#x2F;tmp&#x2F;mysql.sock &#x2F;var&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">bogon:mylaravel lvweichong$ ls &#x2F;var&#x2F;mysql&#x2F;</span><br><span class="line">mysql.sock</span><br></pre></td></tr></table></figure>
+<p>爬坑之旅结束。</p>
+</li>
+</ol>
+<p>伤心：逗比的自己，修改php.ini你要重启的是php-fpm，不是nginx！<br>附上mac下php-fpm重启的命令<code>pgrep php-fpm |xargs sudo kill -USR2</code></p>
+<p>备注：php.ini，mac自带的也是php.ini.default，所以你也要搞一份出来。╮(╯▽╰)╭，问题解决了就是舒畅</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/12/06/swiftz-protocal/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/04/27/ci-email/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

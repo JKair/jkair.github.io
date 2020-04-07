@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mac Docker无法启动 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="docker," />
+  
+
+  <meta name="description" content="问题的具体症状如下：  当你启动Docker 之后，像往常一样，Docker 会问你输入密码 你点了ok，接下来系统就要你输入管理员密码 然后就没反应了，直到你自己点击退出  我是更新到最新版本的Mac OS 10.14.1 Beta (18B45d)之后出现的在github 上面查了，也有人出现过这个问题，但是并没有很好的解决方法。后面我在github docker issue看到也有人遇到这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac Docker无法启动">
+<meta property="og:url" content="https://jkair.github.io/test/2018/11/09/mac-docker-cant-start/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="问题的具体症状如下：  当你启动Docker 之后，像往常一样，Docker 会问你输入密码 你点了ok，接下来系统就要你输入管理员密码 然后就没反应了，直到你自己点击退出  我是更新到最新版本的Mac OS 10.14.1 Beta (18B45d)之后出现的在github 上面查了，也有人出现过这个问题，但是并没有很好的解决方法。后面我在github docker issue看到也有人遇到这个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-11-09T07:07:17.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.378Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-mac-docker-cant-start" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Mac Docker无法启动</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.11.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>问题的具体症状如下：</p>
+<ul>
+<li>当你启动Docker 之后，像往常一样，Docker 会问你输入密码</li>
+<li>你点了ok，接下来系统就要你输入管理员密码</li>
+<li>然后就没反应了，直到你自己点击退出</li>
+</ul>
+<p>我是更新到最新版本的Mac OS 10.14.1 Beta (18B45d)之后出现的<br>在github 上面查了，也有人出现过这个问题，但是并没有很好的解决方法。<br>后面我在<a href="https://github.com/docker/for-mac/issues/1903" target="_blank" rel="noopener">github docker issue</a>看到也有人遇到这个问题</p>
+<p>按照<strong>mrichman</strong>的方法并不能成功启动。</p>
+<p>最后我只得@其他哥们看看解决的那个人是怎么说的，然后那个大胡子兄弟跟我说，具体不大记得，就大概是重装了一下。</p>
+<p>我尝试了重装，但是并不起作用，后面我自己推测大概是卸载不干净导致，于是我就上网上搜了一些教程，按照这篇<a href="https://therealmarv.com/how-to-fully-uninstall-the-offical-docker-os-x-installation/" target="_blank" rel="noopener">卸载</a>文章操作之后重装，Docker 终于可以重新启动了。</p>
+<p>删除具体命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">docker-machine rm -f $(docker-machine ls -q)</span><br><span class="line">boot2docker stop</span><br><span class="line">boot2docker delete</span><br><span class="line">sudo rm -rf &#x2F;Applications&#x2F;boot2docker</span><br><span class="line">sudo rm -rf &#x2F;Applications&#x2F;Docker</span><br><span class="line">sudo rm -f &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker</span><br><span class="line">sudo rm -f &#x2F;usr&#x2F;local&#x2F;bin&#x2F;boot2docker</span><br><span class="line">sudo rm -f &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-machine</span><br><span class="line">sudo rm -r &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-machine-driver*</span><br><span class="line">sudo rm -f &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose</span><br><span class="line">sudo pkgutil --forget io.docker.pkg.docker</span><br><span class="line">sudo pkgutil --forget io.docker.pkg.dockercompose</span><br><span class="line">sudo pkgutil --forget io.docker.pkg.dockermachine</span><br><span class="line">sudo pkgutil --forget io.boot2dockeriso.pkg.boot2dockeriso</span><br><span class="line">sudo rm -rf &#x2F;usr&#x2F;local&#x2F;share&#x2F;boot2docker</span><br><span class="line">rm -rf ~&#x2F;.boot2docker</span><br><span class="line">rm ~&#x2F;.ssh&#x2F;id_boot2docker*</span><br><span class="line">rm -rf ~&#x2F;.docker</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/12/14/laravel-use-md5/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/19/laradock-swoole/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

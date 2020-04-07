@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>一个关于session奇怪的BUG | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="php," />
+  
+
+  <meta name="description" content="环境如下：thinkphp + PHP5.4 + apache + mysql + linux&#x2F;windows.  bug描述如下：当我页面进行登录的时候，一开始登录上去了，然后隔一段时间，突然间就又自动退出了，而且退出的session返回之前的状态，很难寻找究竟BUG出现在哪里。  解决过程如下：  首先，和同事尽力地去重现这个BUG，但是发现这个BUG是不定时出现的，刷着刷着就出现了，很奇怪">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个关于session奇怪的BUG">
+<meta property="og:url" content="https://jkair.github.io/test/2015/12/31/about-session-bug/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="环境如下：thinkphp + PHP5.4 + apache + mysql + linux&#x2F;windows.  bug描述如下：当我页面进行登录的时候，一开始登录上去了，然后隔一段时间，突然间就又自动退出了，而且退出的session返回之前的状态，很难寻找究竟BUG出现在哪里。  解决过程如下：  首先，和同事尽力地去重现这个BUG，但是发现这个BUG是不定时出现的，刷着刷着就出现了，很奇怪">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-31T15:14:17.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.372Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="php">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-about-session-bug" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">一个关于session奇怪的BUG</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.12.31</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <ol>
+<li><p>环境如下：<br>thinkphp + PHP5.4 + apache + mysql + linux/windows.</p>
+</li>
+<li><p>bug描述如下：<br>当我页面进行登录的时候，一开始登录上去了，然后隔一段时间，突然间就又自动退出了，而且退出的session返回之前的状态，很难寻找究竟BUG出现在哪里。</p>
+</li>
+<li><p>解决过程如下：</p>
+<ul>
+<li>首先，和同事尽力地去重现这个BUG，但是发现这个BUG是不定时出现的，刷着刷着就出现了，很奇怪问题究竟出现在什么地方，于是就无限重复地尝试重试BUG，总结了这个BUG的规律大概就是，隔一段时间，就自动刷新回以前的session。</li>
+<li>之后无限重读了thinkphp的源码，发现问题并不大，怎么思考都觉得没有这方面的BUG。</li>
+<li>回忆了这几天所做的修改，发现最大的就是把session存进数据库，还有就是新版页面的轮询。于是翻查了数据库的东西，发现并没有存在这些问题，无论如何都是在我打开登录页面，登录之后，刷新回某个页面发生的事情。</li>
+<li>在同事的提醒下，突然间明白了整个BUG的产生过程。</li>
+</ul>
+</li>
+<li><p>BUG发生的原因解析：</p>
+<ul>
+<li>我在其他页面使用了轮询，这是一个单独的线程，然而session的机制，当我关闭这个线程的时候，PHP会将当前session重新写入，这样就导致了，虽然我已经登录了，但是由于轮询的那个线程关闭时间还没到，当时间一到，线程关闭，session被重新写入，session被我无意中删除！</li>
+</ul>
+</li>
+<li><p>解决方案：</p>
+<ul>
+<li>在轮询的过程中，不需要写入session的话，则session_write_close()</li>
+<li>当你需要写入session，再session_start()</li>
+</ul>
+</li>
+</ol>
+<p>这个BUG非常之无脑= =，两个人合作查找了一两个小时，不过问题最终还是解决完毕了。记录一下。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/12/29/alert-system/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2016/03/03/about-laravel-auth/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

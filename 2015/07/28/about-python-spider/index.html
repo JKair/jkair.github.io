@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于python爬虫 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="python," />
+  
+
+  <meta name="description" content="最近在弄一个需求，需要写到爬虫，本来是使用php的，但是php没有一款可以满足需要的爬虫框架，于是转而使用python。目前比较流利的python爬虫框架有好多，这次最主要接触了ghost.py、spynner解析就使用了beautiful这篇文章最主要还是记录一下一些坑。先说一下这两款的共性，就是都会用到pyqt，所以安装之前一定先要安装pyqt，至于原因，则是因为两者都是基于webkit浏览器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于python爬虫">
+<meta property="og:url" content="https://jkair.github.io/test/2015/07/28/about-python-spider/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="最近在弄一个需求，需要写到爬虫，本来是使用php的，但是php没有一款可以满足需要的爬虫框架，于是转而使用python。目前比较流利的python爬虫框架有好多，这次最主要接触了ghost.py、spynner解析就使用了beautiful这篇文章最主要还是记录一下一些坑。先说一下这两款的共性，就是都会用到pyqt，所以安装之前一定先要安装pyqt，至于原因，则是因为两者都是基于webkit浏览器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-07-28T08:19:22.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.372Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于ghost-py"><span class="toc-text">关于ghost.py</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于spynner"><span class="toc-text">关于spynner</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于beautifulsoup"><span class="toc-text">关于beautifulsoup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-about-python-spider" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">关于python爬虫</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.07.28</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近在弄一个需求，需要写到爬虫，本来是使用php的，但是php没有一款可以满足需要的爬虫框架，于是转而使用python。<br>目前比较流利的python爬虫框架有好多，这次最主要接触了<code>ghost.py</code>、<code>spynner</code><br>解析就使用了<code>beautiful</code><br>这篇文章最主要还是记录一下一些坑。<br>先说一下这两款的共性，就是都会用到pyqt，所以安装之前一定先要安装pyqt，至于原因，则是因为两者都是基于webkit浏览器内核的爬虫框架，所以会使用到pyqt，总之你懂的。</p>
+<h1 id="关于ghost-py"><a href="#关于ghost-py" class="headerlink" title="关于ghost.py"></a>关于ghost.py</h1><p>安装这款框架过程曲折离奇，我首先是在osx系统下面安装的，首先我<br><code>pip install ghost.py</code><br>写好了例子，之后提示没有qt库<br>然后则安装pyqt<br><code>sudo brew install pyqt</code><br>安装完毕之后，你还会发现错误，因为你还需要安装<code>pyside</code><br><code>pip instll pyside</code><br>再之后，你才可以使用ghost.py，这过程究竟有多少辛酸，由于没有及时记录，忘记了，如果你发现了什么其他的恶心的错误可以联系我，我们来讨论。<br>当你安装好，照着网上的教程乱敲一阵代码之后，你会发现，python始终提示你</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ghost no attritube open</span><br></pre></td></tr></table></figure>
+<p>当你看到这几个触目惊心的单词，又完全没有头绪的时候！你就能体会我当时的痛苦，一个代码都没错，但是就是报错，就是不能用！我Google了一阵，才发现！是版本问题，网上的教程太老了，全部都是0.1的，现在都0.2了，你会发现，0.2的使用方法改变了，在0.2的里面，你不可以直接open，你需要这样写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from ghost import Ghost</span><br><span class="line"></span><br><span class="line">ghost &#x3D; Ghost()</span><br><span class="line">session &#x3D; ghost.start()</span><br><span class="line">session.open(&quot;Your Url&quot;)</span><br></pre></td></tr></table></figure>
+<p>顺便附上<a href="http://ghost-py.readthedocs.org/en/latest/#ghost.Session" target="_blank" rel="noopener">文档</a></p>
+<h1 id="关于spynner"><a href="#关于spynner" class="headerlink" title="关于spynner"></a>关于spynner</h1><p>安装过程略过，假设你安装成功ghost.py，那这款框架，你可以直接pip搞定。<br>然而我想要说的坑并不在这里！</p>
+<ol>
+<li><code>spynner</code>在解析中文网站的时候，全部都是乱码，意思就是解析不了，然而如何改变这种情况呢？我所搜到的方法就是在python的<code>Lib/site-packages/</code>下，找到spynner的源码包，然后在<code>/spynner</code>下修改<code>browser.py</code><br>把477行的<code>def _get_html(self):</code>函数下的return改成<code>return unicode(self.webframe.toHtml().toUtf8(), &#39;utf-8&#39;, &#39;ignore&#39;)</code></li>
+<li>还有一个问题，就是windows用户可能会遇到，<code>.egg文件</code>结尾的文件并不能以文件夹形式打开，那这时候，你只要用压缩软件打开，然后解压出来，就可以了，再之后你只要把文件替换回去，就可以解决这个问题</li>
+</ol>
+<h1 id="关于beautifulsoup"><a href="#关于beautifulsoup" class="headerlink" title="关于beautifulsoup"></a>关于beautifulsoup</h1><p>你在使用beautifulsoup的时候可能会遇到一个问题，也是编码问题，这时候，你记得在实例化beautifulsoup的时候加上<code>from_encoding=&quot;utf-8&quot;</code>参数，就可以解决这个问题。</p>
+<p>关于这两天爬虫遇到的坑就记录到此。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>最近我又开始研究爬虫的东西了，然后我发现，其实有一种很好的解决方案，来自于chrome的扩展插件。其实如果利用插件功能，配合你服务器上的接口用ajax来接收数据，能够很简单的实现爬虫功能，并且纯模拟浏览器操作，成本非常低，能够省去好多繁复的研究各种框架的时间</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/06/26/php-json-null/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/07/28/interview%20question/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Laravel不修改源码的前提Auth验证替换成md5 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="laravel," />
+  
+
+  <meta name="description" content="在读这篇文章之前，请先弄明白容器的运作原理。注意，版本是5.1 LTS那个。其他版本的原理都差不多。 我们在换成laravel的时候，可能会遇到一个问题，就是以前可能用md5或者其他验证方式的，然后在laravel里面，密码的认证方式又换了，不想自己重写认证方式，又想沿用以前的md5需求。 其实我们在看laravel的Auth::attempt()的时候，可以发现，laravel，调用的验证方法是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel不修改源码的前提Auth验证替换成md5">
+<meta property="og:url" content="https://jkair.github.io/test/2016/12/14/laravel-use-md5/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="在读这篇文章之前，请先弄明白容器的运作原理。注意，版本是5.1 LTS那个。其他版本的原理都差不多。 我们在换成laravel的时候，可能会遇到一个问题，就是以前可能用md5或者其他验证方式的，然后在laravel里面，密码的认证方式又换了，不想自己重写认证方式，又想沿用以前的md5需求。 其实我们在看laravel的Auth::attempt()的时候，可以发现，laravel，调用的验证方法是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-12-14T03:48:39.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.377Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="laravel">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-laravel-use-md5" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Laravel不修改源码的前提Auth验证替换成md5</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.12.14</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>在读这篇文章之前，请先弄明白容器的运作原理。<br>注意，版本是<code>5.1 LTS</code>那个。其他版本的原理都差不多。</p>
+<p>我们在换成laravel的时候，可能会遇到一个问题，就是以前可能用md5或者其他验证方式的，然后在laravel里面，密码的认证方式又换了，不想自己重写认证方式，又想沿用以前的md5需求。</p>
+<p>其实我们在看laravel的<code>Auth::attempt()</code>的时候，可以发现，laravel，调用的验证方法是基于一个hash类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Validate a user against the given credentials.</span><br><span class="line"> *</span><br><span class="line"> * @param \Illuminate\Contracts\Auth\Authenticatable $user</span><br><span class="line"> * @param array                                      $credentials</span><br><span class="line"> *</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function validateCredentials(UserContract $user, array $credentials)</span><br><span class="line">&#123;</span><br><span class="line">    $plain &#x3D; $credentials[&#39;password&#39;];</span><br><span class="line"></span><br><span class="line">    return $this-&gt;hasher-&gt;check($plain, $user-&gt;getAuthPassword());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们只要替换了这个hash类，就完全可以做到使用我们想要的验证方式去验证登录了。<br>那么怎么替换呢？我们其实可以发现，在<code>config/auth.php</code>里面，我们设置了auth的驱动，这个驱动一般默认是<code>eloquent</code>，在<code>vendor/laravel/framework/src/Illuminate/Auth/AuthServiceProvider.php</code>里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Register the authenticator services.</span><br><span class="line"> *</span><br><span class="line"> * @return void</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected function registerAuthenticator()</span><br><span class="line">&#123;</span><br><span class="line">    $this-&gt;app-&gt;singleton(&#39;auth&#39;, function ($app) &#123;</span><br><span class="line">        &#x2F;&#x2F; Once the authentication service has actually been requested by the developer</span><br><span class="line">        &#x2F;&#x2F; we will set a variable in the application indicating such. This helps us</span><br><span class="line">        &#x2F;&#x2F; know that we need to set any queued cookies in the after event later.</span><br><span class="line">        $app[&#39;auth.loaded&#39;] &#x3D; true;</span><br><span class="line"></span><br><span class="line">        return new AuthManager($app);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    $this-&gt;app-&gt;singleton(&#39;auth.driver&#39;, function ($app) &#123;</span><br><span class="line">        return $app[&#39;auth&#39;]-&gt;driver();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里面根据配置绑定了hash的驱动，那么我们接下来就看一下绑定了什么驱动，到目录<code>vendor/laravel/framework/src/Illuminate/Auth</code>下，我们可以看到有<code>EloquentUserProvider.php</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace Illuminate\Auth;</span><br><span class="line"></span><br><span class="line">use Illuminate\Support\Str;</span><br><span class="line">use Illuminate\Contracts\Auth\UserProvider;</span><br><span class="line">use Illuminate\Contracts\Hashing\Hasher as HasherContract;</span><br><span class="line">use Illuminate\Contracts\Auth\Authenticatable as UserContract;</span><br><span class="line"></span><br><span class="line">class EloquentUserProvider implements UserProvider</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * The hasher implementation.</span><br><span class="line">     *</span><br><span class="line">     * @var \Illuminate\Contracts\Hashing\Hasher</span><br><span class="line">     *&#x2F;</span><br><span class="line">    protected $hasher;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * The Eloquent user model.</span><br><span class="line">     *</span><br><span class="line">     * @var string</span><br><span class="line">     *&#x2F;</span><br><span class="line">    protected $model;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Create a new database user provider.</span><br><span class="line">     *</span><br><span class="line">     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher</span><br><span class="line">     * @param  string  $model</span><br><span class="line">     * @return void</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function __construct(HasherContract $hasher, $model)</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;model &#x3D; $model;</span><br><span class="line">        $this-&gt;hasher &#x3D; $hasher;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">      &#x2F;**</span><br><span class="line">     * Validate a user against the given credentials.</span><br><span class="line">     *</span><br><span class="line">     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user</span><br><span class="line">     * @param  array  $credentials</span><br><span class="line">     * @return bool</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function validateCredentials(UserContract $user, array $credentials)</span><br><span class="line">    &#123;</span><br><span class="line">        $plain &#x3D; $credentials[&#39;password&#39;];</span><br><span class="line"></span><br><span class="line">        return $this-&gt;hasher-&gt;check($plain, $user-&gt;getAuthPassword());</span><br><span class="line">    &#125;</span><br><span class="line">    .....</span><br></pre></td></tr></table></figure>
+<p>通过这个，我们可以看出，这里面在构造方法注入了hash的驱动，然后在验证的时候调用了hash的检查函数去验证用户的密码是否正确，也就是说，我们只要替换了这个hash驱动就可以解决问题了。</p>
+<p>那么我们开始做，首先，我们需要去实现laravel的hash接口。弄一个md5的类出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace Tools\MD5;</span><br><span class="line"></span><br><span class="line">use Illuminate\Contracts\Hashing\Hasher;</span><br><span class="line"></span><br><span class="line">class MD5 implements Hasher</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Hash the given value.</span><br><span class="line">     *</span><br><span class="line">     * @param string $value</span><br><span class="line">     *</span><br><span class="line">     * @return array  $options</span><br><span class="line">     * @return string</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function make($value, array $options &#x3D; [])</span><br><span class="line">    &#123;</span><br><span class="line">        return md5($value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Check the given plain value against a hash.</span><br><span class="line">     *</span><br><span class="line">     * @param string $value</span><br><span class="line">     * @param string $hashedValue</span><br><span class="line">     * @param array  $options</span><br><span class="line">     *</span><br><span class="line">     * @return bool</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function check($value, $hashedValue, array $options &#x3D; [])</span><br><span class="line">    &#123;</span><br><span class="line">        return $this-&gt;make($value) &#x3D;&#x3D;&#x3D; $hashedValue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Check if the given hash has been hashed using the given options.</span><br><span class="line">     *</span><br><span class="line">     * @param string $hashedValue</span><br><span class="line">     * @param array  $options</span><br><span class="line">     *</span><br><span class="line">     * @return bool</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function needsRehash($hashedValue, array $options &#x3D; [])</span><br><span class="line">    &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个类你可以自己手动创建在自己对应的文件夹。</p>
+<p>然后我们创建一个provider，<code>php artisan make:provider RiskUserProvider</code>。<br>这个类就是关键了。<br>我们在这个类下，需要直接继承<code>Illuminate\Auth\EloquentUserProvider</code>，这样它的许多方法我们都不需要去重写了，我们只要重写它的构造函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Providers;</span><br><span class="line"></span><br><span class="line">use Auth;</span><br><span class="line">use Illuminate\Auth\EloquentUserProvider;</span><br><span class="line"></span><br><span class="line">class RiskUserProvider extends EloquentUserProvider</span><br><span class="line">&#123;</span><br><span class="line">  public function __construct($hasher, $model)</span><br><span class="line">  &#123;</span><br><span class="line">      parent::__construct($hasher, $model);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们要将这个新的provider，注入auth。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Auth::extend(&#39;riak&#39;, function($app)&#123;</span><br><span class="line">    $model &#x3D; $this-&gt;app[&#39;config&#39;][&#39;auth.model&#39;];</span><br><span class="line"></span><br><span class="line">    return new RiskUserProvider(new MD5(), $model); &#x2F;&#x2F;这里就是直接将我们新实现的md5类传递过去</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>我们可以在AuthServiceProvider的boot方式注入就好了。<br>有人说5.2是使用<code>Auth::provider</code>方法，详细我自己并没有尝试过，应该是差不多，反正原理就在上面了。</p>
+<p>最后最后，我们在config/auth.php里面，替换驱动成<code>riak</code>。这样问题就解决了。</p>
+<p>这篇文章写的时候，没有详细解释laravel的容器，如果你觉得看起来晦涩难懂，是因为你没有弄懂容器，详细理解之后会看懂的，laravel的入门门槛确实比较高，对于新手来说可能非常不友好，但是当你理解了之后，会有很大的收获的，克服它。</p>
+<p>另外，其实这里的替换方式可以变成直接实现UserProvider的接口，替换整个Provider，这样做会比较正规一点，基本做法和上面描述的都差不多。有错误的地方欢迎指正。</p>
+<p>附上一篇<a href="https://my.oschina.net/zgldh/blog/379461#OSC_h2_1" target="_blank" rel="noopener">参考资料</a></p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/05/11/php7-ssl/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/11/09/mac-docker-cant-start/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

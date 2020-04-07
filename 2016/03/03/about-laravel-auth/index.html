@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Laravel5.1自带认证系统（Auth）改变加密方式带来的思考 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="php," />
+  
+
+  <meta name="description" content="最近网站在进行重构，已经敲定使用laravel 5.11.1 LTS进行重构，这款框架的学习成本相对来说，还是较高，如果PHP知识不扎实的话，可能大部分时间都处于知其然不知其所以然的状态，关于认证这一块我也是摸索着看源码才慢慢懂究竟怎么使用的。初期遇到的问题如下：  Auth认证加密方式的改变，旧版使用md5的加密方式，如何才能让laravel转换成md5认证。 laravel认证的原理是怎么样的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel5.1自带认证系统（Auth）改变加密方式带来的思考">
+<meta property="og:url" content="https://jkair.github.io/test/2016/03/03/about-laravel-auth/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="最近网站在进行重构，已经敲定使用laravel 5.11.1 LTS进行重构，这款框架的学习成本相对来说，还是较高，如果PHP知识不扎实的话，可能大部分时间都处于知其然不知其所以然的状态，关于认证这一块我也是摸索着看源码才慢慢懂究竟怎么使用的。初期遇到的问题如下：  Auth认证加密方式的改变，旧版使用md5的加密方式，如何才能让laravel转换成md5认证。 laravel认证的原理是怎么样的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-03-03T09:31:33.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.371Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="php">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-about-laravel-auth" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Laravel5.1自带认证系统（Auth）改变加密方式带来的思考</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.03.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近网站在进行重构，已经敲定使用<code>laravel 5.11.1 LTS</code>进行重构，这款框架的学习成本相对来说，还是较高，如果PHP知识不扎实的话，可能大部分时间都处于知其然不知其所以然的状态，关于认证这一块我也是摸索着看源码才慢慢懂究竟怎么使用的。<br>初期遇到的问题如下：</p>
+<ol>
+<li>Auth认证加密方式的改变，旧版使用md5的加密方式，如何才能让laravel转换成md5认证。</li>
+<li>laravel认证的原理是怎么样的。</li>
+</ol>
+<p>其实本质上这是两个问题，也是一个问题，因为如果我明白了laravel是如何进行认证的，基本也能改认证形式。</p>
+<p>于是开始在各个地方寻找解决问题的方案，起手在google搜<code>laravel md5</code>，其实大部分人都不建议使用md5的方式来做用户密码的保存。于是慢慢的我的思路转变为，如果将md5转化为Bcrypt。</p>
+<p>在网上搜了很多资料，其实没有特别的帮助我去理解这个认证系统，大部分资料都只告诉了怎么做，于是就自己开始读源码了。<br>在<code>vendor/laravel/framework/src/Illuminate/Auth/Guard.php</code>下，认证系统的逻辑就在这里面，登录使用的函数源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Attempt to authenticate a user using the given credentials.</span><br><span class="line"> *</span><br><span class="line"> * @param  array  $credentials</span><br><span class="line"> * @param  bool   $remember</span><br><span class="line"> * @param  bool   $login</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function attempt(array $credentials &#x3D; [], $remember &#x3D; false, $login &#x3D; true)</span><br><span class="line">&#123;</span><br><span class="line">    $this-&gt;fireAttemptEvent($credentials, $remember, $login);</span><br><span class="line">    &#x2F;&#x2F;下面这句对用户名进行了验证</span><br><span class="line">    $this-&gt;lastAttempted &#x3D; $user &#x3D; $this-&gt;provider-&gt;retrieveByCredentials($credentials);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; If an implementation of UserInterface was returned, we&#39;ll ask the provider</span><br><span class="line">    &#x2F;&#x2F; to validate the user against the given credentials, and if they are in</span><br><span class="line">    &#x2F;&#x2F; fact valid we&#39;ll log the users into the application and return true.</span><br><span class="line">    if ($this-&gt;hasValidCredentials($user, $credentials)) &#123;&#x2F;&#x2F;这里对密码进行了验证，因此要探究加密方式就要从这里看起</span><br><span class="line">        if ($login) &#123;</span><br><span class="line">            $this-&gt;login($user, $remember);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Determine if the user matches the credentials.</span><br><span class="line"> *</span><br><span class="line"> * @param  mixed  $user</span><br><span class="line"> * @param  array  $credentials</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected function hasValidCredentials($user, $credentials)</span><br><span class="line">&#123;</span><br><span class="line">    return ! is_null($user) &amp;&amp; $this-&gt;provider-&gt;validateCredentials($user, $credentials);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码写得很漂亮，很容易看得懂，跟着作者的逻辑跑，在<code>$this-&gt;provider-&gt;retrieveByCredentials($credentials);</code>中，laravel验证了用户是否存在<br>验证逻辑的实现在<code>vendor/laravel/framework/src/Illuminate/Auth/EloquentUserProvider.php</code><br>源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Retrieve a user by the given credentials.</span><br><span class="line"> *</span><br><span class="line"> * @param array $credentials</span><br><span class="line"> *</span><br><span class="line"> * @return \Illuminate\Contracts\Auth\Authenticatable|null</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function retrieveByCredentials(array $credentials)</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; First we will add each credential element to the query as a where clause.</span><br><span class="line">    &#x2F;&#x2F; Then we can execute the query and, if we found a user, return it in a</span><br><span class="line">    &#x2F;&#x2F; Eloquent User &quot;model&quot; that will be utilized by the Guard instances.</span><br><span class="line">    $query &#x3D; $this-&gt;createModel()-&gt;newQuery();</span><br><span class="line"></span><br><span class="line">    foreach ($credentials as $key &#x3D;&gt; $value) &#123;</span><br><span class="line">        if (!Str::contains($key, &#39;password&#39;)) &#123;</span><br><span class="line">            $query-&gt;where($key, $value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $query-&gt;first();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Validate a user against the given credentials.</span><br><span class="line"> *</span><br><span class="line"> * @param \Illuminate\Contracts\Auth\Authenticatable $user</span><br><span class="line"> * @param array                                      $credentials</span><br><span class="line"> *</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function validateCredentials(UserContract $user, array $credentials)</span><br><span class="line">&#123;</span><br><span class="line">    $plain &#x3D; $credentials[&#39;password&#39;];</span><br><span class="line"></span><br><span class="line">    return $this-&gt;hasher-&gt;check($plain, $user-&gt;getAuthPassword());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这两个函数就不做赘述了，之后就是最关键的密码认证方面了，密码认证函数是写在<code>vendor/laravel/framework/src/Illuminate/Hashing/BcryptHasher</code><br>我们想要的check和make函数就在这里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Hash the given value.</span><br><span class="line"> *</span><br><span class="line"> * @param string $value</span><br><span class="line"> * @param array  $options</span><br><span class="line"> *</span><br><span class="line"> * @return string</span><br><span class="line"> *</span><br><span class="line"> * @throws \RuntimeException</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function make($value, array $options &#x3D; [])</span><br><span class="line">&#123;</span><br><span class="line">    $cost &#x3D; isset($options[&#39;rounds&#39;]) ? $options[&#39;rounds&#39;] : $this-&gt;rounds;</span><br><span class="line"></span><br><span class="line">    $hash &#x3D; password_hash($value, PASSWORD_BCRYPT, [&#39;cost&#39; &#x3D;&gt; $cost]);</span><br><span class="line"></span><br><span class="line">    if ($hash &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line">        throw new RuntimeException(&#39;Bcrypt hashing not supported.&#39;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $hash;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Check the given plain value against a hash.</span><br><span class="line"> *</span><br><span class="line"> * @param string $value</span><br><span class="line"> * @param string $hashedValue</span><br><span class="line"> * @param array  $options</span><br><span class="line"> *</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function check($value, $hashedValue, array $options &#x3D; [])</span><br><span class="line">&#123;</span><br><span class="line">    if (strlen($hashedValue) &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return password_verify($value, $hashedValue);&#x2F;&#x2F;关于这个函数可以直接搜索php password_verify。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是的，没错，你可以直接修改这里来改变你的加密方式，但是这种做法是不科学的，如果你没有对这个框架烂熟于心，我不建议你直接对源码进行修改！不建议！因为你并不知道改变源码会对你的项目带来什么影响！鉴于这个原因，以及我又很想使用laravel自带的Auth认证系统（废话，能省事怎么会不想用）。于是我打算改变加密策略，对我的密码加密进行升级。具体的实现思路，就是让用户先进行判断用户的密码以及账号是否正确，如果正确则将新版密码替换旧版密码存进数据库。然后进行用户登录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if ($user) &#123;</span><br><span class="line">      if (MD5Hasher::check($password,$user-&gt;user_password))&#123;</span><br><span class="line">          $user-&gt;user_password &#x3D; Hash::make($password);</span><br><span class="line">          $user-&gt;save();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>思路大概如上。<br>总体来说，在用户数量不是很多的情况下，这种方式还是可以接受的，日后用户全部转换回来之后，可以去除掉这一层检查。关于如何检查用户是否全部升级完密码，检查密码长度则可。</p>
+<p>后记，这里必须提一个问题就是，使用attempt登录，laravel是直接在调用了getAuthPassword，里面返回的是$this-&gt;password，如果你数据库里面的用户表，密码存储的字段并不是password，而是其他，例如mypassword，则在UserModel改写<code>getAuthPassword</code>成<code>return $this-&gt;mypassword</code>。</p>
+<p>添加多一种方法，如果你不想修改源码，但是也想替换的话，那么，你可以通过容器去解决这个问题，laravel的设计确实很巧妙。详细你可以参考我的<a href="https://kair.xyz/2016/12/14/laravel-use-md5/" target="_blank" rel="noopener">另外一篇文章</a>。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/12/31/about-session-bug/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2016/03/18/centos-change-target/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

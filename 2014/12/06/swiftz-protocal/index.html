@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swiftz Protocal | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="centos," />
+  
+
+  <meta name="description" content="Swiftz ProtocalSwiftz is a project aims to create a portable replacement of Edusupplicant, base on the analysis on Edusupplicant 3.6.5. The project is FOR STUDY ONLY. Attacking, hacking or any other i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swiftz Protocal">
+<meta property="og:url" content="https://jkair.github.io/test/2014/12/06/swiftz-protocal/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="Swiftz ProtocalSwiftz is a project aims to create a portable replacement of Edusupplicant, base on the analysis on Edusupplicant 3.6.5. The project is FOR STUDY ONLY. Attacking, hacking or any other i">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-12-06T12:33:23.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.380Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="centos">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swiftz-Protocal"><span class="toc-text">Swiftz Protocal</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Protocal-version"><span class="toc-text">Protocal version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Implementations-based-on-this-analysis"><span class="toc-text">Implementations based on this analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Representation"><span class="toc-text">Representation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Encoding"><span class="toc-text">Encoding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Charset"><span class="toc-text">Charset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Types"><span class="toc-text">Types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Packet"><span class="toc-text">Packet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-a-packet"><span class="toc-text">Generate a packet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parse-a-packet-you-recieved"><span class="toc-text">Parse a packet you recieved</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Encryption-Decryption"><span class="toc-text">Encryption&#x2F;Decryption</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#“crypto3848”"><span class="toc-text">“crypto3848”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#“crypto3849”"><span class="toc-text">“crypto3849”</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow"><span class="toc-text">Flow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Startup"><span class="toc-text">Startup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#First-run-initialization"><span class="toc-text">First-run initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-online"><span class="toc-text">Get online</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#During-you’re-online"><span class="toc-text">During you’re online</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-offline"><span class="toc-text">Get offline</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Packets"><span class="toc-text">Packets</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Initialize"><span class="toc-text">Initialize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Search-for-authorization-server"><span class="toc-text">Search for authorization server</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Get-entries"><span class="toc-text">Get entries</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-1"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive-1"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Online"><span class="toc-text">Online</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-2"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive-2"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Confirm"><span class="toc-text">Confirm</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-3"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive-3"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Breathe"><span class="toc-text">Breathe</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-4"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive-4"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Offline"><span class="toc-text">Offline</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Send-5"><span class="toc-text">Send</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Receive-5"><span class="toc-text">Receive</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Being-disconnected"><span class="toc-text">Being disconnected</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Consts"><span class="toc-text">Consts</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Actions"><span class="toc-text">Actions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fields"><span class="toc-text">Fields</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-swiftz-protocal" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Swiftz Protocal</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.12.06</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Swiftz-Protocal"><a href="#Swiftz-Protocal" class="headerlink" title="Swiftz Protocal"></a>Swiftz Protocal</h1><p><strong>Swiftz</strong> is a project aims to create a portable replacement of Edusupplicant, base on the analysis on Edusupplicant 3.6.5.</p>
+<p>The project is <strong>FOR STUDY ONLY</strong>. Attacking, hacking or any other illegal purposes are <strong>STRICTLY PROHIBITED</strong>.</p>
+<hr>
+<h2 id="Protocal-version"><a href="#Protocal-version" class="headerlink" title="Protocal version"></a>Protocal version</h2><p>The original analysis is based on <strong>Edusupplicant 3.6.5</strong>.</p>
+<p>Tested compatible with <strong>Edusupplicant 3.7.8</strong>.</p>
+<h2 id="Implementations-based-on-this-analysis"><a href="#Implementations-based-on-this-analysis" class="headerlink" title="Implementations based on this analysis"></a>Implementations based on this analysis</h2><ul>
+<li><a href="https://github.com/xingrz/SwiftzMac" target="_blank" rel="noopener">SwiftzMac</a> (for Mac OS X &gt;= 10.8)</li>
+<li><a href="https://github.com/xingrz/swiftzjs" target="_blank" rel="noopener">swiftz.js</a> (for Linux/Mac, command-line, STILL IN PROGRESS)</li>
+<li><a href="https://github.com/xingrz/swiftz-android" target="_blank" rel="noopener">Swiftoid</a> (for Android &gt;= 4.0.3, STILL IN PROGRESS)</li>
+<li>OpenSupplicant (for Windows, stopped development for a long time)</li>
+</ul>
+<h2 id="Representation"><a href="#Representation" class="headerlink" title="Representation"></a>Representation</h2><p>The protocal in this documentation is written as <strong>procedure</strong>.</p>
+<p>For example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; server:3848 crypto3848</span><br><span class="line">LOGIN:</span><br><span class="line">  MAC as data(16)</span><br><span class="line">  USERNAME as string</span><br><span class="line">  PASSWORD as string</span><br><span class="line">  IP as string</span><br><span class="line">  ENTRY as string</span><br><span class="line">  DHCP as boolean</span><br><span class="line">  VERSION as string</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Send to remote server port <code>3848</code> from local port <code>3848</code> (all packets send via <code>UDP</code>). </li>
+<li>The packet is encrypted with <code>crypto3848</code>.</li>
+<li>The packet represents an <code>LOGIN</code> action (see <a href="#actions">Consts / Actions</a> section below).</li>
+<li>The packet contains these fields (see <a href="#fields">Consts / Fields</a> section below):<ol>
+<li><strong>MAC</strong>: Binary data, with fixed length 16 bytes</li>
+<li><strong>USERNAME</strong>: String</li>
+<li><strong>PASSWORD</strong>: String</li>
+<li><strong>IP</strong>: String</li>
+<li><strong>ENTRY</strong>: String</li>
+<li><strong>DHCP</strong>: Boolean</li>
+<li><strong>VERSION</strong>: String</li>
+</ol>
+</li>
+</ol>
+<h2 id="Encoding"><a href="#Encoding" class="headerlink" title="Encoding"></a>Encoding</h2><h3 id="Charset"><a href="#Charset" class="headerlink" title="Charset"></a>Charset</h3><p>All strings in the protocal is in <code>GB2312</code> charset.</p>
+<h3 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h3><ul>
+<li><strong>String</strong>: strings transport in <code>GB2312</code>.</li>
+<li><strong>Char</strong>: number in 1 byte. (i.e. <code>0xFF</code> for <code>255</code>)</li>
+<li><strong>Integer</strong>: number in 4 bytes. (i.e. <code>0x00 0x00 0x00 0xFF</code> for <code>255</code>)</li>
+<li><strong>Boolean</strong>: <code>0x00</code> for <code>false</code>, <code>0x01</code> for <code>true</code>.</li>
+<li><strong>Data</strong>: as it is. (i.e. <code>0x4A 0x21 0x39 0xC0</code> for <code>4A2139C0</code>)</li>
+</ul>
+<h3 id="Packet"><a href="#Packet" class="headerlink" title="Packet"></a>Packet</h3><p>A naked (non-encrypted) packet is in this structure:</p>
+<ol>
+<li>1 byte of <code>ACTION</code> represented what does the packet do</li>
+<li>1 byte represented the length of whole packet</li>
+<li>16 bytes <code>MD5</code> hash</li>
+<li>1 byte of the <code>key</code> of the first field</li>
+<li>1 byte of the <code>length</code> of the first field (including the <code>key</code> and the <code>length</code> itself)</li>
+<li>the <code>data</code> of the first field</li>
+<li>1 byte of the <code>key</code> of the second field (including the <code>key</code> and the <code>length</code> itself)</li>
+<li>1 byte of the <code>length</code> of the second field</li>
+<li>the <code>data</code> of the second field</li>
+<li>……</li>
+</ol>
+<p>Note that fields’ <code>length</code> is 2 bytes shorter than the field is.</p>
+<h3 id="Generate-a-packet"><a href="#Generate-a-packet" class="headerlink" title="Generate a packet"></a>Generate a packet</h3><ol>
+<li>Construct a packet as it’s descripted above, of course, leaving those 16 bytes of <code>MD5</code> hash be 16 bytes of <code>0x00</code></li>
+<li>Generate a <code>MD5</code> hash of the whole packet</li>
+<li>Fill those 16 bytes with the hash you got</li>
+<li>Encrypt it of course :)</li>
+</ol>
+<h3 id="Parse-a-packet-you-recieved"><a href="#Parse-a-packet-you-recieved" class="headerlink" title="Parse a packet you recieved"></a>Parse a packet you recieved</h3><ol>
+<li>Decrypt it</li>
+<li>Check the <code>MD5</code> hash (optional but recommanded for security)</li>
+<li>You know how to do :)</li>
+</ol>
+<h3 id="Encryption-Decryption"><a href="#Encryption-Decryption" class="headerlink" title="Encryption/Decryption"></a>Encryption/Decryption</h3><h4 id="“crypto3848”"><a href="#“crypto3848”" class="headerlink" title="“crypto3848”"></a>“crypto3848”</h4><p>The <code>crypto3848</code> algorithm is a very simple encryption algorithm that changes the order of every byte from <code>ABCDEFGH</code> to <code>HDEFCBAG</code>.</p>
+<p>Here’s a piece of code in JavaScript for reference:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encrypt</span> (<span class="params">buffer</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; buffer.length; i++) &#123;</span><br><span class="line">    buffer[i] = (buffer[i] &amp; <span class="number">0x80</span>) &gt;&gt; <span class="number">6</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x40</span>) &gt;&gt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x20</span>) &gt;&gt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x10</span>) &lt;&lt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x08</span>) &lt;&lt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x04</span>) &lt;&lt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x02</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x01</span>) &lt;&lt; <span class="number">7</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decrypt</span> (<span class="params">buffer</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; buffer.length; i++) &#123;</span><br><span class="line">    buffer[i] = (buffer[i] &amp; <span class="number">0x80</span>) &gt;&gt; <span class="number">7</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x40</span>) &gt;&gt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x20</span>) &gt;&gt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x10</span>) &gt;&gt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x08</span>) &lt;&lt; <span class="number">2</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x04</span>) &lt;&lt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x02</span>) &lt;&lt; <span class="number">6</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x01</span>) &lt;&lt; <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="“crypto3849”"><a href="#“crypto3849”" class="headerlink" title="“crypto3849”"></a>“crypto3849”</h4><p>Like <code>crypto3848</code> but different order that from <code>ABCDEFGH</code> to <code>ECBHAFDG</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encrypt</span> (<span class="params">buffer</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; buffer.length; i++) &#123;</span><br><span class="line">    buffer[i] = (buffer[i] &amp; <span class="number">0x80</span>) &gt;&gt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x40</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x20</span>) &lt;&lt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x10</span>) &gt;&gt; <span class="number">3</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x08</span>) &lt;&lt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x04</span>)</span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x02</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x01</span>) &lt;&lt; <span class="number">4</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decrypt</span> (<span class="params">buffer</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; buffer.length; i++) &#123;</span><br><span class="line">    buffer[i] = (buffer[i] &amp; <span class="number">0x80</span>) &gt;&gt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x40</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x20</span>) &lt;&lt; <span class="number">1</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x10</span>) &gt;&gt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x08</span>) &lt;&lt; <span class="number">4</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x04</span>)</span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x02</span>) &lt;&lt; <span class="number">3</span></span><br><span class="line">              | (buffer[i] &amp; <span class="number">0x01</span>) &lt;&lt; <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2><h3 id="Startup"><a href="#Startup" class="headerlink" title="Startup"></a>Startup</h3><p>Just send a <a href="#initialize"><strong>initialization</strong></a> packet to <code>1.1.1.8</code> without waiting for any response</p>
+<h3 id="First-run-initialization"><a href="#First-run-initialization" class="headerlink" title="First-run initialization"></a>First-run initialization</h3><ol>
+<li>Search for <a href="#search-for-authorization-server"><strong>authorization server</strong></a></li>
+<li>Get <a href="#get-entries"><strong>entries list</strong></a></li>
+</ol>
+<h3 id="Get-online"><a href="#Get-online" class="headerlink" title="Get online"></a>Get online</h3><ol>
+<li>Make a <a href="#online"><strong>online</strong></a> request, and wait for a response</li>
+<li>If successed, some servers may also need a <a href="#confirm"><strong>confirm</strong></a></li>
+</ol>
+<h3 id="During-you’re-online"><a href="#During-you’re-online" class="headerlink" title="During you’re online"></a>During you’re online</h3><ol>
+<li>Make a <a href="#breathe"><strong>breathe</strong></a> every 30 seconds</li>
+<li>Also, listen for <a href="#being-disconnected"><strong>disconnecting</strong></a> notification you may recieved.</li>
+</ol>
+<h3 id="Get-offline"><a href="#Get-offline" class="headerlink" title="Get offline"></a>Get offline</h3><p>Make a <a href="#offline"><strong>offline</strong></a> request to end the session.</p>
+<h2 id="Packets"><a href="#Packets" class="headerlink" title="Packets"></a>Packets</h2><h3 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h3><p>Just send this plain text to <code>1.1.1.8</code> port <code>3850</code> via UDP.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info sock ini</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>No decryption is required.</li>
+<li>No response would be make by the server.</li>
+</ul>
+<h3 id="Search-for-authorization-server"><a href="#Search-for-authorization-server" class="headerlink" title="Search for authorization server"></a>Search for authorization server</h3><h4 id="Send"><a href="#Send" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; 1.1.1.8:3850 crypto3848</span><br><span class="line">SERVER:</span><br><span class="line">  SESSION as string</span><br><span class="line">  IP as string(16)</span><br><span class="line">  MAC as data(16)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Receive"><a href="#Receive" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.1.1.8:3850 -&gt; local:3848 crypto3848</span><br><span class="line">SERVER_RET:</span><br><span class="line">  SERVER as data(4)</span><br><span class="line">  UNKNOWN0D as data(4)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>SERVER</code> is received as 4-byte data that each byte indicates a part of an IPv4 address, e.g. <code>AC1001B4</code> for <code>172.16.1.180</code>.</li>
+</ul>
+<h3 id="Get-entries"><a href="#Get-entries" class="headerlink" title="Get entries"></a>Get entries</h3><h4 id="Send-1"><a href="#Send-1" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; server:3848 crypto3848</span><br><span class="line">ENTRIES:</span><br><span class="line">  SESSION as string</span><br><span class="line">  MAC as binary(16)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Receive-1"><a href="#Receive-1" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:3848 -&gt; local:3848 crypto3848</span><br><span class="line">ENTRIES_RET:</span><br><span class="line">  ENTRY as string</span><br><span class="line">  ENTRY as string</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>It may be more than one <code>ENTRY</code> field.</li>
+</ul>
+<h3 id="Online"><a href="#Online" class="headerlink" title="Online"></a>Online</h3><h4 id="Send-2"><a href="#Send-2" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; server:3848 crypto3848</span><br><span class="line">LOGIN:</span><br><span class="line">  MAC as data(6)</span><br><span class="line">  USERNAME as string</span><br><span class="line">  PASSWORD as string</span><br><span class="line">  IP as string</span><br><span class="line">  ENTRY as string</span><br><span class="line">  DHCP as boolean</span><br><span class="line">  VERSION as string</span><br></pre></td></tr></table></figure>
+
+<h4 id="Receive-2"><a href="#Receive-2" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server:3848 -&gt; local:3848 crypto3848</span><br><span class="line">LOGIN_RET:</span><br><span class="line">  SUCCESS as boolean</span><br><span class="line">  SESSION as string</span><br><span class="line">  UNKNOWN05 as char</span><br><span class="line">  UNKNOWN06 as char</span><br><span class="line">  MESSAGE as string</span><br><span class="line">  UNKNOWN95 as data(24)</span><br><span class="line">  UNKNOWN06 as char</span><br><span class="line">  BLOCK34 as data(4)</span><br><span class="line">  BLOCK35 as data(4)</span><br><span class="line">  BLOCK36 as data(4)</span><br><span class="line">  BLOCK37 as data(4)</span><br><span class="line">  BLOCK38 as data(4)</span><br><span class="line">  WEBSITE as string</span><br><span class="line">  UNKNOWN23 as char</span><br><span class="line">  UNKNOWN20 as char</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Only contains <code>SUCCESS</code>, <code>SESSION</code> and <code>MESSAGE</code> if not successed (i.e. wrong password)</li>
+<li>Will contains an unknown field <code>UNKNOWN95</code> with 24 bytes of <code>0x00</code> and an unknown field <code>UNKNOWN06</code> if it is in low-speed mode.</li>
+<li>The <code>length</code> of field <code>SESSION</code> received is 2 bytes shorter than the field is.</li>
+<li>The <code>length</code> of field <code>MESSAGE</code> received is 2 bytes shorter than the field is.</li>
+</ul>
+<h3 id="Confirm"><a href="#Confirm" class="headerlink" title="Confirm"></a>Confirm</h3><h4 id="Send-3"><a href="#Send-3" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">local:random -&gt; server:3849 crypto3849</span><br><span class="line">CONFIRM:</span><br><span class="line">  USERNAME as string</span><br><span class="line">  MAC as data(6)</span><br><span class="line">  IP as string</span><br><span class="line">  ENTRY as string</span><br></pre></td></tr></table></figure>
+
+<h4 id="Receive-3"><a href="#Receive-3" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:3849 -&gt; local:random crypto3849</span><br><span class="line">CONFIRM_RET</span><br><span class="line">  UNKNOWN30 as data(4)</span><br><span class="line">  UNKNOWN31 as data(4)</span><br><span class="line">  UNKNOWN32 as char</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The packet is sent and receive via the same random port</li>
+<li>3 bytes of <code>0x00</code> appears before the md5 checksum of the packet possibly by a BUG. The length of the whole packet is calculated with those 3 bytes included.</li>
+</ul>
+<h3 id="Breathe"><a href="#Breathe" class="headerlink" title="Breathe"></a>Breathe</h3><h4 id="Send-4"><a href="#Send-4" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; server:3848 crypto3848</span><br><span class="line">BREATHE:</span><br><span class="line">  SESSION as string</span><br><span class="line">  IP as string(16)</span><br><span class="line">  MAC as data(16)</span><br><span class="line">  INDEX as integer</span><br><span class="line">  BLOCK2A as data(4)</span><br><span class="line">  BLOCK2B as data(4)</span><br><span class="line">  BLOCK2C as data(4)</span><br><span class="line">  BLOCK2D as data(4)</span><br><span class="line">  BLOCK2E as data(4)</span><br><span class="line">  BLOCK2F as data(4)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The initial value of <code>INDEX</code> is <code>0x01000000</code> and increases 3 after every breathe.</li>
+<li><code>INDEX</code> should not be increased unless a valid <code>BREATHE_RET</code> is recevied, because you may lost packets in low-speed mode.</li>
+</ul>
+<h4 id="Receive-4"><a href="#Receive-4" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:3848 -&gt; local:3848 crypto3848</span><br><span class="line">BREATHE_RET:</span><br><span class="line">  SUCCESS as boolean</span><br><span class="line">  SESSION as string</span><br><span class="line">  INDEX as integer</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The <code>length</code> of field <code>SESSION</code> received is 2 bytes shorter than the field is.</li>
+</ul>
+<h3 id="Offline"><a href="#Offline" class="headerlink" title="Offline"></a>Offline</h3><h4 id="Send-5"><a href="#Send-5" class="headerlink" title="Send"></a>Send</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">local:3848 -&gt; server:3848 crypto3848</span><br><span class="line">LOGOUT:</span><br><span class="line">  SESSION as string</span><br><span class="line">  IP as string(16)</span><br><span class="line">  MAC as data(16)</span><br><span class="line">  INDEX as integer</span><br><span class="line">  BLOCK2A as data(4)</span><br><span class="line">  BLOCK2B as data(4)</span><br><span class="line">  BLOCK2C as data(4)</span><br><span class="line">  BLOCK2D as data(4)</span><br><span class="line">  BLOCK2E as data(4)</span><br><span class="line">  BLOCK2F as data(4)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The initial value of <code>INDEX</code> is <code>0x01000000</code> and increases 3 after every breathe.</li>
+<li><code>INDEX</code> should not be increased unless a valid <code>BREATHE_RET</code> is recevied, because you may lost packets in low-speed mode.</li>
+<li>It’s very like a <code>BREATHE</code> packet.</li>
+</ul>
+<h4 id="Receive-5"><a href="#Receive-5" class="headerlink" title="Receive"></a>Receive</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:3848 -&gt; local:3848 crypto3848</span><br><span class="line">LOGOUT_RET:</span><br><span class="line">  SUCCESS as boolean</span><br><span class="line">  SESSION as string</span><br><span class="line">  INDEX as integer</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The <code>length</code> of field <code>SESSION</code> received is 2 bytes shorter than the field is.</li>
+</ul>
+<h3 id="Being-disconnected"><a href="#Being-disconnected" class="headerlink" title="Being disconnected"></a>Being disconnected</h3><p>Once you have bean disconnected, you’ll receive a packet from the server:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server:2001 -&gt; local:4999 crypto3848</span><br><span class="line">DISCONNECT:</span><br><span class="line">  SESSION as string</span><br><span class="line">  REASON as char</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Possible values of <code>REASON</code>:<ul>
+<li><code>0x00</code> - No valid breathe is made for a long time.</li>
+<li><code>0x01</code> - You’re disconnected forcibly (by administrator, maybe).</li>
+<li><code>0x02</code> - You’ve reached your network traffic limit.</li>
+</ul>
+</li>
+<li>The <code>length</code> of field <code>SESSION</code> received is 2 bytes shorter than the field is.</li>
+</ul>
+<h2 id="Consts"><a href="#Consts" class="headerlink" title="Consts"></a>Consts</h2><h3 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; login</span><br><span class="line">LOGIN &#x3D; 0x01</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; login result</span><br><span class="line">LOGIN_RET &#x3D; 0x02</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; breathe</span><br><span class="line">BREATHE &#x3D; 0x03</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; breathe result</span><br><span class="line">BREATHE_RET &#x3D; 0x04</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; logout</span><br><span class="line">LOGOUT &#x3D; 0x05</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; logout result</span><br><span class="line">LOGOUT_RET &#x3D; 0x06</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; get access point</span><br><span class="line">ENTRIES &#x3D; 0x07</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; return access point</span><br><span class="line">ENTRIES_RET &#x3D; 0x08</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; disconnect</span><br><span class="line">DISCONNECT &#x3D; 0x09</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; confirm login</span><br><span class="line">CONFIRM &#x3D; 0x0A</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; confirm login result</span><br><span class="line">CONFIRM_RET &#x3D; 0x0B</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; get server</span><br><span class="line">SERVER &#x3D; 0X0C</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; return server</span><br><span class="line">SERVER_RET &#x3D; 0x0D</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fields"><a href="#Fields" class="headerlink" title="Fields"></a>Fields</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; username</span><br><span class="line">USERNAME &#x3D; 0x01</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; password</span><br><span class="line">PASSWORD &#x3D; 0x02</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; whether it is success</span><br><span class="line">SUCCESS &#x3D; 0x03</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; unknown, appears while login successfully</span><br><span class="line">UNKNOWN05 &#x3D; 0x05</span><br><span class="line">UNKNOWN06 &#x3D; 0x06</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; mac address</span><br><span class="line">MAC &#x3D; 0x07</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; session (NOTE: wrong in return packet)</span><br><span class="line">SESSION &#x3D; 0x08</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ip address</span><br><span class="line">IP &#x3D; 0x09</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; access point</span><br><span class="line">ENTRY &#x3D; 0x0A</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; message (NOTE: wrong in return packet)</span><br><span class="line">MESSAGE &#x3D; 0x0B</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; server ip address</span><br><span class="line">SERVER &#x3D; 0x0C</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; unknown, appears while received server ip address</span><br><span class="line">UNKNOWN0D &#x3D; 0x0D</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; is dhcp enabled</span><br><span class="line">DHCP &#x3D; 0x0E</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; self-services website link</span><br><span class="line">WEBSITE &#x3D; 0x13</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; serial no</span><br><span class="line">INDEX &#x3D; 0x14</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; version</span><br><span class="line">VERSION &#x3D; 0x1F</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; unknown, appears while login successfully</span><br><span class="line">UNKNOWN20 &#x3D; 0x20</span><br><span class="line">UNKNOWN23 &#x3D; 0x23</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; disconnect reason</span><br><span class="line">REASON &#x3D; 0x24</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4 bytes blocks, send in breathe and logout</span><br><span class="line">BLOCK2A &#x3D; 0x2A</span><br><span class="line">BLOCK2B &#x3D; 0x2B</span><br><span class="line">BLOCK2C &#x3D; 0x2C</span><br><span class="line">BLOCK2D &#x3D; 0x2D</span><br><span class="line">BLOCK2E &#x3D; 0x2E</span><br><span class="line">BLOCK2F &#x3D; 0x2F</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; unknown 4 bytes blocks, appears while confirmed</span><br><span class="line">BLOCK30 &#x3D; 0x30</span><br><span class="line">BLOCK31 &#x3D; 0x31</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; unknown</span><br><span class="line">UNKOWN32 &#x3D; 0x32</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4 bytes blocks, appears while login successfully</span><br><span class="line">BLOCK34 &#x3D; 0x34</span><br><span class="line">BLOCK35 &#x3D; 0x35</span><br><span class="line">BLOCK36 &#x3D; 0x36</span><br><span class="line">BLOCK37 &#x3D; 0x37</span><br><span class="line">BLOCK38 &#x3D; 0x38</span><br></pre></td></tr></table></figure>
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/12/03/how-to-seafile/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/04/17/mac-create-laravel/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

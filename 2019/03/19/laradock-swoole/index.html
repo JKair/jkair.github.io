@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Laradock 使用 Swoole | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="docker," />
+  
+
+  <meta name="description" content="环境：mac docker 版本：2.0.0.3（31259） laradock 版本 ：254a9ae19490b53fc8f0647d81b7581c312f0724 laravel 版本：5.4.* laravel-swoole 版本：^2.5   首先我们需要在 laradock 的.env文件下面修改WORKSPACE_INSTALL_SWOOLE&#x3D;true 重新 build 一下虚拟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laradock 使用 Swoole">
+<meta property="og:url" content="https://jkair.github.io/test/2019/03/19/laradock-swoole/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="环境：mac docker 版本：2.0.0.3（31259） laradock 版本 ：254a9ae19490b53fc8f0647d81b7581c312f0724 laravel 版本：5.4.* laravel-swoole 版本：^2.5   首先我们需要在 laradock 的.env文件下面修改WORKSPACE_INSTALL_SWOOLE&#x3D;true 重新 build 一下虚拟">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/121543-3b377e95b14e238c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2019-03-19T10:33:28.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.376Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/121543-3b377e95b14e238c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-laradock-swoole" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Laradock 使用 Swoole</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <ul>
+<li>环境：mac</li>
+<li>docker 版本：2.0.0.3（31259）</li>
+<li>laradock 版本 ：254a9ae19490b53fc8f0647d81b7581c312f0724</li>
+<li>laravel 版本：5.4.*</li>
+<li>laravel-swoole 版本：^2.5</li>
+</ul>
+<ol>
+<li>首先我们需要在 <code>laradock</code> 的<code>.env</code>文件下面修改<code>WORKSPACE_INSTALL_SWOOLE=true</code></li>
+<li>重新 build 一下虚拟机 <code>docker-compose build workspace</code></li>
+<li>重新 build 好了之后，启动</li>
+<li>进入虚拟机检查一下是否安装成功了 <code>php -m | grep swoole</code>，如果打印出了<code>swoole</code>，就证明安装成功了</li>
+<li>接下来，我们要修改一下 nginx 的配置文件 <code></code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">map $http_upgrade $connection_upgrade &#123;</span><br><span class="line">    default upgrade;</span><br><span class="line">    &#39;&#39;      close;</span><br><span class="line">&#125;</span><br><span class="line">upstream laravels &#123;</span><br><span class="line">    # Connect IP:Port</span><br><span class="line">    server workspace:1215 weight&#x3D;5 max_fails&#x3D;3 fail_timeout&#x3D;30s;</span><br><span class="line">    keepalive 16;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">    listen 80;</span><br><span class="line">#    listen [::]:80 ipv6only&#x3D;on;</span><br><span class="line"></span><br><span class="line">    server_name yourdomain.com;</span><br><span class="line">    root &#x2F;var&#x2F;www&#x2F;swoole&#x2F;public;</span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    error_log &#x2F;var&#x2F;www&#x2F;swoole_error.log;</span><br><span class="line"></span><br><span class="line">    location &#x3D; &#x2F;index.php &#123;</span><br><span class="line">        # Ensure that there is no such file named &quot;not_exists&quot;</span><br><span class="line">        # in your &quot;public&quot; directory.</span><br><span class="line">        try_files &#x2F;not_exists @swoole;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">         try_files $uri $uri&#x2F; @swoole;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location @swoole &#123;</span><br><span class="line">        set $suffix &quot;&quot;;</span><br><span class="line"></span><br><span class="line">        if ($uri &#x3D; &#x2F;index.php) &#123;</span><br><span class="line">            set $suffix ?$query_string;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_set_header Scheme $scheme;</span><br><span class="line">        proxy_set_header SERVER_PORT $server_port;</span><br><span class="line">        proxy_set_header REMOTE_ADDR $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection $connection_upgrade;</span><br><span class="line"></span><br><span class="line">        # IF https</span><br><span class="line">        # proxy_set_header HTTPS &quot;on&quot;;</span><br><span class="line"></span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;laravels$suffix;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ &#x2F;\.ht &#123;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F;.well-known&#x2F;acme-challenge&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;letsencrypt&#x2F;;</span><br><span class="line">        log_not_found off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ 这份配置文件，是参照官方文档的，这里面有个很关键的地方，就是修改 upsteam 那里，<code>server workspace:1215</code>。因为我们 Nginx 的运行是跟 laravel 的环境在不同一台机子的，所以你必须修改这里的upsteam，不然就会造成502。</li>
+<li>接下来，我们进入我们的 laravel 项目，安装一下<code>laravel-swoole</code>，<code>composer require laravel-swoole</code></li>
+<li>然后接下来，我们可以修改一下 <code>.env</code> 文件，让<code>laravel-swoole</code>变成守护进程启动还有指定 swoole 代理的host，<code>SWOOLE_HTTP_HOST=workspace
+SWOOLE_HTTP_DAEMONIZE=true</code>，端口我没有修改，默认是<code>1215</code>，如果有需要可以自行修改，记得修改nginx。</li>
+<li><code>php artisan swoole:http start</code>，启动swoole，打开我们的网页</li>
+<li>我修改了host，所以我用的是自定义的域名，打开之后如果你看到<br> <img src="https://upload-images.jianshu.io/upload_images/121543-3b377e95b14e238c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>恭喜你，成功了。另外，假设你发现启动了swoole 之后，性能反而变慢了，那就要进行一些参数调优了，具体可以参照官方的文档<a href="https://wiki.swoole.com/wiki/page/520.html" target="_blank" rel="noopener">swoole</a>，这里就不展开讲了。</li>
+</ol>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/11/09/mac-docker-cant-start/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2020/04/04/windows-git-alias/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

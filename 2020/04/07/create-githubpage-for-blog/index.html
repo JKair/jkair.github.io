@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>用githubpage搭建自己的博客（一） | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="githubpage," />
+  
+
+  <meta name="description" content="需要准备的工具如下： git npm hexo 一个自己的域名（可以去 godaddy 买，或者去阿里云买，但是阿里云买就需要备案，手尾比较长，本文用godaddy 示例） github 账号 你机子ssh的public key  下面开始我们的搭建： 在 github 部署ssh。  打开命令行终端（windows 用户打开git-bash） 输入ssh-keygen，一直按enter 生成完毕">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用githubpage搭建自己的博客（一）">
+<meta property="og:url" content="https://jkair.github.io/test/2020/04/07/create-githubpage-for-blog/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="需要准备的工具如下： git npm hexo 一个自己的域名（可以去 godaddy 买，或者去阿里云买，但是阿里云买就需要备案，手尾比较长，本文用godaddy 示例） github 账号 你机子ssh的public key  下面开始我们的搭建： 在 github 部署ssh。  打开命令行终端（windows 用户打开git-bash） 输入ssh-keygen，一直按enter 生成完毕">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T06:16:53.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.374Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="githubpage">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#需要准备的工具如下："><span class="toc-text">需要准备的工具如下：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#下面开始我们的搭建："><span class="toc-text">下面开始我们的搭建：</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-create-githubpage-for-blog" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">用githubpage搭建自己的博客（一）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2020.04.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="需要准备的工具如下："><a href="#需要准备的工具如下：" class="headerlink" title="需要准备的工具如下："></a>需要准备的工具如下：</h1><ul>
+<li><a href="https://git-scm.com/" target="_blank" rel="noopener">git</a></li>
+<li><a href="https://www.npmjs.cn/getting-started/installing-node/" target="_blank" rel="noopener">npm</a></li>
+<li><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo</a></li>
+<li>一个自己的域名（可以去 godaddy 买，或者去阿里云买，但是阿里云买就需要备案，手尾比较长，本文用godaddy 示例）</li>
+<li>github 账号</li>
+<li>你机子ssh的public key</li>
+</ul>
+<h1 id="下面开始我们的搭建："><a href="#下面开始我们的搭建：" class="headerlink" title="下面开始我们的搭建："></a>下面开始我们的搭建：</h1><ol>
+<li><p>在 github 部署ssh。</p>
+<ul>
+<li>打开命令行终端（windows 用户打开git-bash）</li>
+<li>输入ssh-keygen，一直按enter</li>
+<li>生成完毕后，我们<code>cd ~/.ssh</code>（windows 用户在你本机用户的根目录下，有个.ssh 文件夹），打开之后我们会看到里面有两个文件，一个是<code>id_rsa</code>，一个是<code>id_rsa.pub</code>，这个<code>id_rsa.pub</code>，就是生成的公钥了</li>
+<li>打开我们的github的<a href="https://github.com/settings/keys" target="_blank" rel="noopener">SSH and GPG keys</a></li>
+<li>点击New SSH Key，在下面的框里面填上<code>id_rsa.pub</code>的内容，这样我们就部署完ssh了</li>
+</ul>
+</li>
+<li><p>创建一个仓库，名字是你的用户名开头，github.io 为结尾。比如我的用户名是JKair，那么就创建<code>jkair.github.io</code>。 </p>
+</li>
+<li><p>用hexo 初始化我们的博客，并且上传到github。</p>
+<ul>
+<li>在你的工作目录下，<code>hexo init blog</code></li>
+<li>打开创建好的 blog，然后再打开<code>_config.yml</code>，拉到最下面</li>
+<li>我们再修改里面的部署配置：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: 你的仓库地址，记得是ssh地址，这样不用老是输入密码</span><br><span class="line">#branch: 这个可填也不填，如果不指定的话，hexo 将会自己创建一个master 分支上传</span><br></pre></td></tr></table></figure></li>
+<li>打开命令行，在 blog 的目录下输入 <code>hexo clean &amp;&amp; hexo d</code>，等hexo 编译完就部署上去了了</li>
+<li>打开你的项目地址比如我的就是<a href="http://jkair.github.io">http://jkair.github.io</a></li>
+</ul>
+</li>
+<li><p>绑定自己的域名（这里以godaddy 示例，因为阿里云买的话还要备案啥的，手尾很长）</p>
+<ul>
+<li><p>首先我们去<a href="https://sg.godaddy.com/zh" target="_blank" rel="noopener">godaddy</a>注册一个账号，注册完毕之后登陆，主页就能直接搜索域名了，花几块钱（土豪除外）买一个你自己想要的域名，一般 xyz 结尾这些或者是长名称的域名比较便宜</p>
+</li>
+<li><p>接下来<code>点dns-&gt;管理区域-&gt;搜索自己刚买的域名（比如我买的是kair.xyz）</code></p>
+</li>
+<li><p>我们进入了一个设置dns 的界面，那么接下来根据 github 的<a href="https://help.github.com/cn/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noopener">文档</a>我们要添加四个 ip 进去</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th align="center">名称</th>
+<th align="center">记录值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td align="center">@</td>
+<td align="center">185.199.108.153</td>
+</tr>
+<tr>
+<td>A</td>
+<td align="center">@</td>
+<td align="center">185.199.109.153</td>
+</tr>
+<tr>
+<td>A</td>
+<td align="center">@</td>
+<td align="center">185.199.110.153</td>
+</tr>
+<tr>
+<td>A</td>
+<td align="center">@</td>
+<td align="center">185.199.111.153</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>打开我们的github.io 的项目setting，在<code>Github Page</code>那一栏，<code>customer domain</code>填上你买的域名，比如我填的就是<code>kair.xyz</code>，回到项目，我们会发现，你的文件目录下，多了一个<code>CNAME</code>文件，里面写的就是你刚刚填的域名。</p>
+</li>
+<li><p>打开<a href="https://kair.xyz" target="_blank" rel="noopener">kair.xyz</a>，看到我们刚刚打开的github.io 域名下的页面，我们就部署成功了。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>整个部署过程就是这样，接下来就是如何维护自己的博客，并且修改主题样式了，我会额外再写一篇文章。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2020/04/07/create-githubpage-for-blog2/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>用githubpage搭建自己的博客（二） | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="githubpage," />
+  
+
+  <meta name="description" content="上一篇文章我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客 给自己的博客设置主题由于我不是设计师，我真的不会设计，估计自己来设计也是歪瓜裂枣，所以我都选择别人写的。 首先我们可以上主题推荐选择自己喜欢的主题，当然你也可以在 github 上面搜索，这里以我的使用的主题fexo为例 克隆主题到自己的项目12$ cd my-blog$ git clone git@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用githubpage搭建自己的博客（二）">
+<meta property="og:url" content="https://jkair.github.io/test/2020/04/07/create-githubpage-for-blog2/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="上一篇文章我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客 给自己的博客设置主题由于我不是设计师，我真的不会设计，估计自己来设计也是歪瓜裂枣，所以我都选择别人写的。 首先我们可以上主题推荐选择自己喜欢的主题，当然你也可以在 github 上面搜索，这里以我的使用的主题fexo为例 克隆主题到自己的项目12$ cd my-blog$ git clone git@">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T06:16:53.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.375Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="githubpage">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#给自己的博客设置主题"><span class="toc-text">给自己的博客设置主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆主题到自己的项目"><span class="toc-text">克隆主题到自己的项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改配置文件"><span class="toc-text">修改配置文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置CNAME"><span class="toc-text">设置CNAME</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传项目"><span class="toc-text">上传项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客的设置和更新"><span class="toc-text">博客的设置和更新</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改样式"><span class="toc-text">修改样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#写文章"><span class="toc-text">写文章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#blog源"><span class="toc-text">blog源</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-create-githubpage-for-blog2" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">用githubpage搭建自己的博客（二）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2020.04.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a href="https://kair.xyz/2020/04/07/create-githubpage-for-blog/" target="_blank" rel="noopener">上一篇文章</a>我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客</p>
+<h2 id="给自己的博客设置主题"><a href="#给自己的博客设置主题" class="headerlink" title="给自己的博客设置主题"></a>给自己的博客设置主题</h2><p>由于我不是设计师，我真的不会设计，估计自己来设计也是歪瓜裂枣，所以我都选择别人写的。</p>
+<p>首先我们可以上<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题推荐</a>选择自己喜欢的主题，当然你也可以在 github 上面搜索，这里以我的使用的主题<a href="http://forsigner.com/fexo-doc-zh-cn/" target="_blank" rel="noopener">fexo</a>为例</p>
+<h3 id="克隆主题到自己的项目"><a href="#克隆主题到自己的项目" class="headerlink" title="克隆主题到自己的项目"></a>克隆主题到自己的项目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd my-blog</span><br><span class="line">$ git clone git@github.com:forsigner&#x2F;fexo.git themes&#x2F;fexo</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>修改自己博客根目录下的<code>_config.yml</code>，设置<code>theme:fexo</code></p>
+<h2 id="设置CNAME"><a href="#设置CNAME" class="headerlink" title="设置CNAME"></a>设置CNAME</h2><p>前面我们绑定了自己的域名，所以这里我们要将CNAME，放到自己的<code>hexo</code>项目进来，不然每次我们更新博客，CNAME 就不见了。</p>
+<p>在<code>your-blog/source</code>下，创建CNAME文件（注意，没有文件类型的后缀），CNAME 的内容就是你的域名。</p>
+<h2 id="上传项目"><a href="#上传项目" class="headerlink" title="上传项目"></a>上传项目</h2><p>在你博客的根目录下，<code>hexo clean &amp;&amp; hexo d</code>，上传成功后，刷新自己的博客（可能需要一分钟），就发现主题换上去了，但是都是主题默认的设置</p>
+<h2 id="博客的设置和更新"><a href="#博客的设置和更新" class="headerlink" title="博客的设置和更新"></a>博客的设置和更新</h2><h3 id="修改样式"><a href="#修改样式" class="headerlink" title="修改样式"></a>修改样式</h3><p>我们可以根据你选择的主题的文档去进行修改设置你喜欢的样式等等，比如我使用的<a href="http://forsigner.com/fexo-doc-zh-cn/" target="_blank" rel="noopener">fexo</a>，如果我要修改头像，我就修改<code>/themes/images/avatar.jpg</code>就可以了。其他的设置每个主题都不一样，可以自己参考文档，这部分并不难</p>
+<h3 id="写文章"><a href="#写文章" class="headerlink" title="写文章"></a>写文章</h3><p>我们可以在自己的 blog 下，<code>hexo new your-post-name</code>，之后会在<code>source/_posts/</code>创建一个叫做<code>your-post-name</code>的文件，文章的表头</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 用githubpage搭建自己的博客（二） &#x2F;&#x2F;名字</span><br><span class="line">date: 2020-04-07 14:16:53			&#x2F;&#x2F;创建日期</span><br><span class="line">tags: [githubpage]  				&#x2F;&#x2F;标签</span><br><span class="line">categories: 后端						&#x2F;&#x2F;类别</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>然后空一行开始写就可以了，写完之后，还是<code>hexo clean &amp;&amp; hexo d</code>。</p>
+<h3 id="blog源"><a href="#blog源" class="headerlink" title="blog源"></a>blog源</h3><p>因为github.io的这个仓库上传的是打包后的，所以，我们自己维护的这个blog 项目，可以直接上传到其他的仓库保存，比如我就上传到一个 <a href="https://github.com/JKair/blog" target="_blank" rel="noopener">blog</a> 的项目。看你个人想不想上传这个项目。</p>
+<p>本文到此就结束了，希望你看完有收获</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2020/04/04/windows-git-alias/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2020/04/07/create-githubpage-for-blog/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

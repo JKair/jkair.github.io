@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Laravel 组件小总结 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="laravel," />
+  
+
+  <meta name="description" content="最近捣鼓laravel捣鼓的多，感觉不总结一下过阵子又会忘记了，然后又好像没学到什么一样，由于接触到的是新框架，就要多多的理解框架的特性。这里稍微踩一下，不知道是国内环境问题还是某度问题，laravel相关的知识真心少，真心不多！这里想写的是对于laravel各个组件的总结。备注：本篇不是教程！而是总结！没有可以完全照抄的代码，需要理解运作流程再动手写！每个人的环境和流程都不一样，请勿完全照抄。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel 组件小总结">
+<meta property="og:url" content="https://jkair.github.io/test/2016/03/24/laravel-module/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="最近捣鼓laravel捣鼓的多，感觉不总结一下过阵子又会忘记了，然后又好像没学到什么一样，由于接触到的是新框架，就要多多的理解框架的特性。这里稍微踩一下，不知道是国内环境问题还是某度问题，laravel相关的知识真心少，真心不多！这里想写的是对于laravel各个组件的总结。备注：本篇不是教程！而是总结！没有可以完全照抄的代码，需要理解运作流程再动手写！每个人的环境和流程都不一样，请勿完全照抄。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-03-24T08:02:50.000Z">
+<meta property="article:modified_time" content="2020-04-07T15:29:15.377Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="laravel">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-laravel-module" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Laravel 组件小总结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.03.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近捣鼓laravel捣鼓的多，感觉不总结一下过阵子又会忘记了，然后又好像没学到什么一样，由于接触到的是新框架，就要多多的理解框架的特性。<br>这里稍微踩一下，不知道是国内环境问题还是某度问题，laravel相关的知识真心少，真心不多！<br>这里想写的是对于laravel各个组件的总结。<br><code>备注：本篇不是教程！而是总结！没有可以完全照抄的代码，需要理解运作流程再动手写！每个人的环境和流程都不一样，请勿完全照抄。</code></p>
+<ol>
+<li><p>ORM<br>这一块是相对比较通用的一块，其实关于这个并不是laravel最大的特性，因为很多框架都会有，laravel也有。之前使用这一块的时候，由于文档说明的真心不多，导致使用的时候很多爆炸性报错，然后最后只能慢慢读源码，看一下laravel的设定是怎么样的。<br>首先要说明的是几个属性的问题，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 这里设定的是表名，就是本模型在数据库里面所对应的表</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected $table &#x3D; &#39;user&#39;;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 这里是设定字段，说明什么字段可以赋值</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected $fillable &#x3D; [&#39;user_name&#39;, &#39;user_password&#39;];</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 这里的设定，是当你实例化此模型（意思就是你在数据库里面查出来了某条对应的数据），需要隐藏这个模型某些字段的信息</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected $hidden &#x3D; [&#39;user_password&#39;, &#39;remember_token&#39;];</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 创建时间维护，如果你这里标识为null，就表示不维护创建时间，更新时间是同理的</span><br><span class="line"> *&#x2F;</span><br><span class="line">const CREATED_AT &#x3D; &#39;create_time&#39;;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 更新时间维护</span><br><span class="line"> *&#x2F;</span><br><span class="line">const UPDATED_AT &#x3D; &#39;update_time&#39;;</span><br></pre></td></tr></table></figure>
+<p>这里你很有可能会有这样的需求，就是当你只想让laravel维护你的更新时间，并不想让它维护你的创建时间，或者反过来的情况的时候，你可以设置其中一个时间为null，不对时间进行维护，文档中只说明了，如果开关维护时间，这点比较坑= =，反正我是看完源代码才明白，它里面本身就有这个设定，源码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;**</span><br><span class="line"> * Update the creation and update timestamps.</span><br><span class="line"> *</span><br><span class="line"> * @return void</span><br><span class="line"> *&#x2F;</span><br><span class="line">protected function updateTimestamps()</span><br><span class="line">&#123;</span><br><span class="line">    $time &#x3D; $this-&gt;freshTimestamp();</span><br><span class="line"></span><br><span class="line">    if (! $this-&gt;isDirty(static::UPDATED_AT)) &#123;   &#x2F;&#x2F;这一行代码就对更新时间进行了设定，</span><br><span class="line">                                         &#x2F;&#x2F;如果更新时间不存在，那么就不会设置更新时间，</span><br><span class="line">                                         &#x2F;&#x2F;所以设置UPDATED_AT为null，是可以取消对更新时间的维护的，</span><br><span class="line">                                         &#x2F;&#x2F;下面创建时间是同理的</span><br><span class="line">        $this-&gt;setUpdatedAt($time);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (! $this-&gt;exists &amp;&amp; ! $this-&gt;isDirty(static::CREATED_AT)) &#123;</span><br><span class="line">        $this-&gt;setCreatedAt($time);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Determine if the model or given attribute(s) have been modified.</span><br><span class="line"> *</span><br><span class="line"> * @param  array|string|null  $attributes</span><br><span class="line"> * @return bool</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function isDirty($attributes &#x3D; null)</span><br><span class="line">&#123;</span><br><span class="line">    $dirty &#x3D; $this-&gt;getDirty();</span><br><span class="line"></span><br><span class="line">    if (is_null($attributes)) &#123;</span><br><span class="line">        return count($dirty) &gt; 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (! is_array($attributes)) &#123;</span><br><span class="line">        $attributes &#x3D; func_get_args();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    foreach ($attributes as $attribute) &#123;</span><br><span class="line">        if (array_key_exists($attribute, $dirty)) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Get the attributes that have been changed since last sync.</span><br><span class="line"> *</span><br><span class="line"> * @return array</span><br><span class="line"> *&#x2F;</span><br><span class="line">public function getDirty()</span><br><span class="line">&#123;</span><br><span class="line">    $dirty &#x3D; [];</span><br><span class="line"></span><br><span class="line">    foreach ($this-&gt;attributes as $key &#x3D;&gt; $value) &#123;</span><br><span class="line">        if (! array_key_exists($key, $this-&gt;original)) &#123;</span><br><span class="line">            $dirty[$key] &#x3D; $value;</span><br><span class="line">        &#125; elseif ($value !&#x3D;&#x3D; $this-&gt;original[$key] &amp;&amp;</span><br><span class="line">                             ! $this-&gt;originalIsNumericallyEquivalent($key)) &#123;</span><br><span class="line">            $dirty[$key] &#x3D; $value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $dirty;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上是关于模型设置的小总结。<br>这里特别提醒一点，就是关联模型的使用的！在文档中也有提醒，假设你需要使用的关联表数据比较多，请直接贪婪架加载，<a href="http://laravelacademy.org/post/140.html" target="_blank" rel="noopener">用with方法</a>！<br>另外，当我们需要进行更多层的关联的时候，可以使用with(‘xxx.xxx’)去关联，来达到这种效果：当前模型-&gt;关联模型-&gt;关联模型。举个例子：当你需要通过当前的模型来查找用户的信息，而用户的信息的获取需要先关联用户表(假设关联关系user)，再关联用户信息表(假设关联关系为info)才能拿到的时候，你可以这样写with(‘user.info’)，这样就能拿到信息了。</p>
+</li>
+<li><p>Request<br>Request这个设定极大的方便了对于表单的处理，在这一块功能内，你可以对表单的请求进行控制，当然，可以对整个请求进行控制，权限控制什么的，表单验证什么的。我对于Request的理解，就是这一层可以对表单请求进行验证，以及对此次表单请求的权限等进行验证。<br>使用的流程如下：</p>
+<ul>
+<li>创建一个Request <code>php artisan make:request MyRequest</code></li>
+<li>在request中加入你的使用逻辑：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace App\\Http\\Requests\\Auth;</span><br><span class="line">use App\\Http\\Requests\\Request;</span><br><span class="line">class MyRequest extends Request</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Determine if the user is authorized to make this request.</span><br><span class="line">     *</span><br><span class="line">     * @return bool</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function authorize()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;这里写你的权限逻辑，return true or false 代表着请求通过不通过</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Get the validation rules that apply to the request.</span><br><span class="line">     *</span><br><span class="line">     * @return array</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function rules()</span><br><span class="line">    &#123;</span><br><span class="line">        return [</span><br><span class="line">            &#x2F;&#x2F;这里写验证规则</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>在控制层的请求实例化它<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">use App\\Http\\Request\\MyRequest;</span><br><span class="line">public function getIndex(MyRequest $request)</span><br><span class="line">&#123;</span><br><span class="line">      &#x2F;&#x2F;.............你需要做的处理</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这样你就能完整使用一个Request了，注意，上面的代码并没有完全实现，只是其中一部分关键代码，请认真理解，而不是直接照抄！<br>总结：Request极大的方便了对于表单的处理，以前对表单的处理太复杂，验证是表单最麻烦的一块，laravel的这一块极大的方便了开发。具体如何使用验证的，请参考<a href="http://laravelacademy.org/post/240.html" target="_blank" rel="noopener">文档</a></li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>Middleware<br>中间件，这是laravel5新增的东西，简直就是666666666666，关于这一块，做权限验证是爆炸性好用，你可以在路由层就直接拦截请求进行处理，实在方便，而且甚至你还可以在请求达到Request层之前，就对数据进行准备！6666。中间件的使用并不难，步骤如下：<ul>
+<li><code>php artisan make:middleware MyMiddleware</code></li>
+<li>在<code>Kernel.php</code>内添加这个中间件，还可以设置别名。</li>
+<li>在路由层设置中间件。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Route::put(&#39;post&#x2F;&#123;id&#125;&#39;, [&#39;middleware&#39; &#x3D;&gt; &#39;MyMiddleware&#39;, function ($id) &#123;</span><br><span class="line">  &#x2F;&#x2F;</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure></li>
+<li>这里不对如何使用进行强调了，因为<a href="http://laravelacademy.org/post/57.html" target="_blank" rel="noopener">文档</a>已经说得很清楚了，我想说的是另外一件事情，关于resource如何使用中间件的。目前我的使用方式就是将resource放入group来使用。resource本身没有middware的设定。= =在stackoverflow，有鬼佬说可以使用before或者after，具体还没实验，日后补上。</li>
+</ul>
+</li>
+<li>Event<br>说到Event组件，不得不说，这一层也可以完美的处理我们的一个事件流程，这里我说一个场景来帮助我们理解这个组件。<br>假设有一个系统，上面如果有用户注册了，需要发送短信以及邮件去通知管理员，那我们最平常的处理方法就是在将用户信息写入数据库之后，再调用发送短信以及邮件函数，去达到通知管理员的目的，但是这样做有存在一个问题，就是假设多个地方需要做这样的通知，那就会有茫茫多的冗余代码，而假设不止要做短信通知和邮件通知那么简单，在短信通知里面还要分对象，不同模板去通知，这样下来的处理就会大爆炸，代码会非常恶心，都是一块一块的冗余。然而这个组件帮我们解决了这样的问题，而且我们还可以十分方便的做多个通知，甚至还能阻止事件冒泡（关于这个后面举一个详细的例子）。<br>关于Event组件如何使用，代码如何写，配置如何写的，这里不做赘述，<a href="http://laravelacademy.org/post/198.html" target="_blank" rel="noopener">文档</a>非常清楚。我想通过一个流程来说明这个组件：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户注册-&gt;信息写入数据库-&gt;Event::fire(new UserRegister())(触发注册事件)-&gt;Listenser捕捉并处理事件</span><br></pre></td></tr></table></figure>
+这一套处理流程能让我们更清晰以及更简洁的去描述整个注册流程，鹅妹子吟。当然我所说的只是一种应用场景，还有更加丰富的用法，我举这个例子，是为了帮助我们更好的去理解<a href="http://laravelacademy.org/post/198.html" target="_blank" rel="noopener">Event</a>在我们这整个系统中的应用</li>
+<li>Polices（策略）<br>关于策略这个组件，最大的好处就是和中间件配合使用了，我对策略这个组件的理解，就是分离函数权限，中间件我用来控制整个控制器的权限，而策略更加细化，可以细化到某个函数，我在某些控制器方法里面进行了过滤，可能我需要的权限检查，不止一层，有好几层，但是只单单针对一个方法的，那么你完全可以使用策略这个组件满足你的需求。策略的使用方法分为以下几个步骤：<ul>
+<li>创建策略 <code>php artisan make:policy MyPolicy</code></li>
+<li>填写策略 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public function index(User $user,TestModel $test)</span><br><span class="line">&#123;</span><br><span class="line">    return $user-&gt;can(&#39;use_this&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>在Providers/AuthServiceProvider里面配置$policies</li>
+<li>在控制器中使用Gate门面调用。<code>Gate::denies(&#39;index&#39;, new TestModel())</code></li>
+<li>这里给一个注意点，就是策略的使用，第二个参数，只要传模型实例，laravel会根据你的配置，调用策略，前面的参数则是调用策略的方法。</li>
+</ul>
+</li>
+</ol>
+<p>目前只简单的总结这几个组件，接下来有时间，会继续分析这个框架。</p>
+<p>如果你有什么问题，可以在文章下留言，进行交流。以下推荐了两个网站是关于laravel文档的，你可以在里面获取laravel相关的知识。</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/03/18/centos-change-target/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2016/05/11/php7-ssl/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
