@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>python中的float除法和整除法 | kair的博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="python," />
+  
+
+  <meta name="description" content="从python2.2开始，便有两种除法运算符：”&#x2F;“、”&#x2F;&#x2F;“。两者最大区别在：  python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”&#x2F;“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法 “&#x2F;&#x2F;“所做的除法则不相同，”&#x2F;&#x2F;“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法  以下是笔者在编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python中的float除法和整除法">
+<meta property="og:url" content="https://jkair.github.io/test/2014/12/03/about-python-float/index.html">
+<meta property="og:site_name" content="kair的博客">
+<meta property="og:description" content="从python2.2开始，便有两种除法运算符：”&#x2F;“、”&#x2F;&#x2F;“。两者最大区别在：  python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”&#x2F;“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法 “&#x2F;&#x2F;“所做的除法则不相同，”&#x2F;&#x2F;“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法  以下是笔者在编译">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-12-03T07:08:29.000Z">
+<meta property="article:modified_time" content="2021-03-24T04:46:38.421Z">
+<meta property="article:author" content="kair">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbeddx" rel="stylesheet">
+
+
+  
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?530d82ac5969fcba5d5758265a91ddca";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-about-python-float" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">python中的float除法和整除法</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.12.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>kair</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>从python2.2开始，便有两种除法运算符：”/“、”//“。两者最大区别在：</p>
+<ol>
+<li>python2.2前的版本和python2.2以后3.0以前的版本的默认情况下，”/“所做的除法是以一种两个数或者多个数出现一个浮点数结果就以浮点数的形式表示，即float除法</li>
+<li>“//“所做的除法则不相同，”//“不管两者出现任何数，都以整除结果为准，不对小数部分进行处理，直接抛弃，也就是整除法</li>
+</ol>
+<p><strong>以下是笔者在编译器测试的数据，测试的版本是<code>python2.7</code></strong></p>
+<p>关于”/“：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 3&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 10&#x2F;3.0</span><br><span class="line">3.3333333333333335</span><br></pre></td></tr></table></figure>
+
+<p>由以上的例子我们可得出，只要除数中<strong>有一个数</strong>是浮点数，那么得到的结果也是浮点数</p>
+<p>以下是关于”//“:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br></pre></td></tr></table></figure>
+
+<p>由以上的例子，我们可以看出，两个整型相除，得到的还是整型，但是。如果一个浮点数除以一个非浮点数得到的还会是一个浮点数，但是，计算的结果却是忽略小数部分，运算的结果类似两个整型相除，但是得到一个浮点数。另外”//“对于两个浮点数也是不例外的。</p>
+<p>如何让”/“和”//“进行分工</p>
+<p>在默认情况下，这两种运算符有很大的重叠地方，比如，当两个数都是整数的时候，两者的运算结果是没有区别的。如果想在python中让这两种有一个明确的分工。即”/“可以用于float除法，”//“用于整除法，我们可以在程序开始的时候做以下声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from __future__ import division</span><br></pre></td></tr></table></figure>
+
+<p>声明后测试的结果（以下测试的版本是python2.7）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from __future__ import division</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;2.0</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3.0&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; 3&#x2F;&#x2F;2.0</span><br><span class="line">1.0</span><br><span class="line">&gt;&gt;&gt; -11&#x2F;2</span><br><span class="line">-5.5</span><br></pre></td></tr></table></figure>
+
+<p>以上，我们可以知道，做这个声明以后，”/“进行的将是float除法而不是整除法。</p>
+<p>还需要注意的是，在<strong>pyhton3</strong>中，”/“表示的就是float除，不需要再引入模块，就算分子分母都是int，返回的也将是浮点数</p>
+
+    
+  </div>
+
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">请我喝杯可乐</div>
+        <ul>
+        
+          <li class="item">
+            
+              <span>支付宝扫一扫</span>
+            
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/12/02/git-lab-create/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/12/03/centos6-mysql-devel-install/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
