@@ -23,7 +23,7 @@
 <meta property="og:description" content="上一篇文章我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客 给自己的博客设置主题由于我不是设计师，我真的不会设计，估计自己来设计也是歪瓜裂枣，所以我都选择别人写的。 首先我们可以上主题推荐选择自己喜欢的主题，当然你也可以在 github 上面搜索，这里以我的使用的主题fexo为例 克隆主题到自己的项目12$ cd my-blog$ git clone git@">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-07T09:16:53.000Z">
-<meta property="article:modified_time" content="2020-04-12T12:35:03.114Z">
+<meta property="article:modified_time" content="2021-08-27T16:50:21.727Z">
 <meta property="article:author" content="kair">
 <meta property="article:tag" content="githubpage">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
 
   <div class="article-content">
     
-      <p><a href="https://kair.xyz/2020/04/07/create-githubpage-for-blog/" target="_blank" rel="noopener">上一篇文章</a>我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客</p>
+      <p><a href="https://jkair.github.io//2020/04/07/create-githubpage-for-blog/">上一篇文章</a>我们已经搭建好了自己的博客，并且绑定好了自己的域名，这一篇我们来看看如何维护自己的博客</p>
 <h2 id="给自己的博客设置主题"><a href="#给自己的博客设置主题" class="headerlink" title="给自己的博客设置主题"></a>给自己的博客设置主题</h2><p>由于我不是设计师，我真的不会设计，估计自己来设计也是歪瓜裂枣，所以我都选择别人写的。</p>
 <p>首先我们可以上<a href="https://hexo.io/themes/" target="_blank" rel="noopener">主题推荐</a>选择自己喜欢的主题，当然你也可以在 github 上面搜索，这里以我的使用的主题<a href="http://forsigner.com/fexo-doc-zh-cn/" target="_blank" rel="noopener">fexo</a>为例</p>
 <h3 id="克隆主题到自己的项目"><a href="#克隆主题到自己的项目" class="headerlink" title="克隆主题到自己的项目"></a>克隆主题到自己的项目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd my-blog</span><br><span class="line">$ git clone git@github.com:forsigner&#x2F;fexo.git themes&#x2F;fexo</span><br></pre></td></tr></table></figure>
@@ -223,7 +223,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 用githubpage搭建自己的博客（二） &#x2F;&#x2F;名字</span><br><span class="line">date: 2020-04-07 14:16:53			&#x2F;&#x2F;创建日期</span><br><span class="line">tags: [githubpage]  				&#x2F;&#x2F;标签</span><br><span class="line">categories: 后端						&#x2F;&#x2F;类别</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
 <p>然后空一行开始写就可以了，写完之后，还是<code>hexo clean &amp;&amp; hexo d</code>。</p>
-<h3 id="使用-gittalk-作为评论插件"><a href="#使用-gittalk-作为评论插件" class="headerlink" title="使用 gittalk 作为评论插件"></a>使用 gittalk 作为评论插件</h3><p>首先我们要注册一个<a href="https://github.com/settings/developers" target="_blank" rel="noopener">github oauth app</a>,<code>name</code> 就写你自己喜欢的名字就好了，<code>homepage url</code> 和 <code>callback url</code>填写你 blog 的链接就好了，比如我写的就是<code>https://kair.xyz</code>。</p>
+<h3 id="使用-gittalk-作为评论插件"><a href="#使用-gittalk-作为评论插件" class="headerlink" title="使用 gittalk 作为评论插件"></a>使用 gittalk 作为评论插件</h3><p>首先我们要注册一个<a href="https://github.com/settings/developers" target="_blank" rel="noopener">github oauth app</a>,<code>name</code> 就写你自己喜欢的名字就好了，<code>homepage url</code> 和 <code>callback url</code>填写你 blog 的链接就好了，比如我写的就是<code>https://jkair.github.io/</code>。</p>
 <p>打开<code>themes/fexo/_config.yml</code>，修改对应信息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: true </span><br><span class="line">  clientID: your-id</span><br><span class="line">  clientSecret: your-secret</span><br><span class="line">  repo: jkair.github.io &#x2F;&#x2F;你的仓库名，这里你也可以专门创建一个github的仓库来存放评论</span><br><span class="line">  owner: jkair</span><br><span class="line">  admin: jkair</span><br></pre></td></tr></table></figure>
 
@@ -262,7 +262,7 @@
     <a class="show pull-left" href="/2020/04/07/create-githubpage-for-blog/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="hide pull-right" href="/">
+    <a class="show pull-right" href="/2021/08/28/magento-varnish-always-miss/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>

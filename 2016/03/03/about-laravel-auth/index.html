@@ -23,7 +23,7 @@
 <meta property="og:description" content="最近网站在进行重构，已经敲定使用laravel 5.11.1 LTS进行重构，这款框架的学习成本相对来说，还是较高，如果PHP知识不扎实的话，可能大部分时间都处于知其然不知其所以然的状态，关于认证这一块我也是摸索着看源码才慢慢懂究竟怎么使用的。初期遇到的问题如下：  Auth认证加密方式的改变，旧版使用md5的加密方式，如何才能让laravel转换成md5认证。 laravel认证的原理是怎么样的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-03-03T09:31:33.000Z">
-<meta property="article:modified_time" content="2020-04-07T15:29:15.371Z">
+<meta property="article:modified_time" content="2021-08-27T16:50:24.771Z">
 <meta property="article:author" content="kair">
 <meta property="article:tag" content="php">
 <meta name="twitter:card" content="summary">
@@ -221,7 +221,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if ($user) &#123;</span><br><span class="line">      if (MD5Hasher::check($password,$user-&gt;user_password))&#123;</span><br><span class="line">          $user-&gt;user_password &#x3D; Hash::make($password);</span><br><span class="line">          $user-&gt;save();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>思路大概如上。<br>总体来说，在用户数量不是很多的情况下，这种方式还是可以接受的，日后用户全部转换回来之后，可以去除掉这一层检查。关于如何检查用户是否全部升级完密码，检查密码长度则可。</p>
 <p>后记，这里必须提一个问题就是，使用attempt登录，laravel是直接在调用了getAuthPassword，里面返回的是$this-&gt;password，如果你数据库里面的用户表，密码存储的字段并不是password，而是其他，例如mypassword，则在UserModel改写<code>getAuthPassword</code>成<code>return $this-&gt;mypassword</code>。</p>
-<p>添加多一种方法，如果你不想修改源码，但是也想替换的话，那么，你可以通过容器去解决这个问题，laravel的设计确实很巧妙。详细你可以参考我的<a href="https://kair.xyz/2016/12/14/laravel-use-md5/" target="_blank" rel="noopener">另外一篇文章</a>。</p>
+<p>添加多一种方法，如果你不想修改源码，但是也想替换的话，那么，你可以通过容器去解决这个问题，laravel的设计确实很巧妙。详细你可以参考我的<a href="https://jkair.github.io//2016/12/14/laravel-use-md5/">另外一篇文章</a>。</p>
 
     
   </div>
